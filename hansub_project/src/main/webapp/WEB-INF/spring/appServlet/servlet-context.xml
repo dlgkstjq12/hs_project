@@ -32,5 +32,8 @@
 	</beans:bean>
 	<!-- 스프링 빈을 태그로 등록하지 않고 자동으로 검색(auto scan) --> 
 	<context:component-scan base-package="com.example.hansub_project" />
+	
+	
+
 
 </beans:beans>

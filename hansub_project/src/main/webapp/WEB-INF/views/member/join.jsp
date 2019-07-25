@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 
 </head>
-<br><%@ include file="header.jsp"%>
-<br><%@ include file="menu.jsp"%><br>
+<br><%@ include file="../include/header.jsp"%>
+<br><%@ include file="../include/menu.jsp"%><br>
 
 <body>
 <center>

@@ -32,12 +32,10 @@ public class MemberController {
 		private static final Logger logger=
 				LoggerFactory.getLogger(MemberController.class);
 
-	
 	@RequestMapping("/member/join.do")
 	public String join() {
-		return "join";
+		return "member/join";
 	}
-	
 	
 	@RequestMapping("/member/join.check.do")
 	public ModelAndView joincheck(String user_id, String member_pass, String e_mail) {
@@ -56,36 +54,35 @@ public class MemberController {
 		
 		memberservice.join(map,dto);
 		
-		mv.setViewName("joinresult");
+		mv.setViewName("member/joinresult");
 		mv.addObject("user_id",user_id);
 	
 		return mv;
 	}
 	
 	
-	@RequestMapping("login.do")
-	public ModelAndView login (String user_id, String member_pass,
-			HttpSession session) throws Exception{
-		
-		MemberDTO dto = new MemberDTO();
-		dto.setUser_id(user_id);
-		dto.setMember_pass(member_pass);
-		boolean result = memberservice.loginCheck(dto, session);
-		ModelAndView mav = new ModelAndView();
-		
-		
-		if(result) {	//로그인 성공
-			mav.setViewName("login_result");//뷰의이름
-			mav.addObject("user_id", session.getAttribute(user_id));
-			
-		}else if(session.getAttribute(user_id)==null) {
-			//로그인 실패
-			mav.setViewName("login");
-			//뷰에 전달할 값
-			mav.addObject("message", "회원가입된 회원의 아이디 혹은 비밀번호가 일치하지 않습니다.");
-		} 
-		return mav;
-	}
+	  @RequestMapping("login.do") public ModelAndView login (String user_id, String
+	  member_pass, HttpSession session) throws Exception{
+	  
+	  MemberDTO dto = new MemberDTO(); 
+	  dto.setUser_id(user_id);
+	  dto.setMember_pass(member_pass); 
+	  boolean result = memberservice.loginCheck(dto, session); 
+	  ModelAndView mav = new ModelAndView();
+	  
+	  if(result) { //로그인 성공 
+	mav.setViewName("member/login_result");//뷰의이름
+	  mav.addObject("user_id", session.getAttribute(user_id));
+	  
+	  }else if(session.getAttribute(user_id)==null) { //로그인 실패
+	  mav.setViewName("member/login"); 
+	  //뷰에 전달할 값 
+	 
+	  mav.addObject("message","회원가입된 회원의 아이디 혹은 비밀번호가 일치하지 않습니다."); 
+	  } 
+	return mav; 
+}
+	
 	
 	//로그아웃 메소드
 	@RequestMapping("logout.do")
@@ -96,17 +93,35 @@ public class MemberController {
 		
 		return "home";
 	}
+	
+	
+	@RequestMapping(value = "login", method = RequestMethod.GET)
+	public String login(HttpSession session) {
 		
+		return "member/login";
+		
+	}
+	
+	
+	
+	
+	@RequestMapping(value = "login_result", method = RequestMethod.GET)
+	public String login_result(HttpSession session) {
+		
+		return "member/login_result";
+	}
+	
+	
 	//아이디 찾기 페이지로 이동 
 	@RequestMapping("find.user_id.do")
 	public String finduser_id() {
-		return "find_user_id";
+		return "member/find_user_id";
 	}
 	
 	//비밀번호 찾기 페이지로 이동
 	@RequestMapping("find.member_pass.do")
 	public String findmember_pass() {
-		return "find_member_pass";
+		return "member/find_member_pass";
 	}
 	
 	
@@ -120,12 +135,12 @@ public class MemberController {
 		String user_id = memberservice.find_idCheck(dto);
 		
 		if(user_id != null) {
-			mav.setViewName("find_id_result");	
+			mav.setViewName("member/find_id_result");	
 			mav.addObject("user_id", user_id);
 		
 		}else {
 			//아이디 찾기 실패
-			mav.setViewName("find_user_id");
+			mav.setViewName("member/find_user_id");
 			//뷰에 전달할 값
 			mav.addObject("message", "회원가입된 회원의 이메일이 아닙니다");
 		}
@@ -146,12 +161,12 @@ public class MemberController {
 			String member_pass = memberservice.find_passCheck(dto);
 			
 			if(member_pass != null) {
-				mav.setViewName("find_pass_result");	
+				mav.setViewName("member/find_pass_result");	
 				mav.addObject("member_pass", member_pass);
 			
 			}else {
 				//비밀번호 찾기 실패
-				mav.setViewName("find_member_pass");
+				mav.setViewName("member/find_member_pass");
 				//뷰에 전달할 값
 				mav.addObject("message", "회원가입된 회원의 아이디 혹은 이메일이 아닙니다.");
 			}

@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>메인페이지</title>
 </head>
-<%@ include file="header.jsp"%>
+<%@ include file="include/header.jsp"%>
 
 <body>
 <center>
@@ -19,12 +19,10 @@
 <br>
 </center>
 
+<%@ include file="member/login.jsp"%>
 
-<%@ include file="login.jsp"%>
-
-
-
-
+<!-- 네이버 아이디로 로그인하기 버튼 -->
+<div id = "naver_id_login"></div>
 
 </body>
 </html>
