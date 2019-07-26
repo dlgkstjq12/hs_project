@@ -10,7 +10,7 @@
 <br><%@ include file="../include/menu.jsp"%><br>
 
 </head>
-
+<!-- 아이디 찾기 결과 페이지 -->
 <span style="color: green; font-weight: bold;">아이디 찾기 결과</span> <br> <br>
 
 <body>

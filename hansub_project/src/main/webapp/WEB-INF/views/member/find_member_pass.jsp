@@ -10,8 +10,11 @@
 </head>
 <body>
 
+<!-- 비밀번호 찾기 페이지 -->
+<!-- 에러메시지를 전달받는 함수 -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
+
 	$(function(){
 		var responseMessage = "<c:out value="${message}" />";
 		if (responseMessage != ""){
@@ -20,7 +23,7 @@
 	})
 </script>
 
-
+<!-- id와 이메일을 입력하면 컨트롤러로 맵핑 -->
 <form action = "find_pass.do" method = "post">
 <center>
 <br>

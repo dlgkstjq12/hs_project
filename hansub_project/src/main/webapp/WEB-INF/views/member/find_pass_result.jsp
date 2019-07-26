@@ -10,7 +10,7 @@
 <br><%@ include file="../include/menu.jsp"%><br>
 
 </head>
-
+<!-- 비밀번호 찾기 결과 페이지 비밀번호가 출력됨 -->
 <span style="color: green; font-weight: bold;">비밀번호 찾기 결과</span> <br> <br>
 
 <body>

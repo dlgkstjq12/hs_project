@@ -12,22 +12,22 @@ import org.springframework.stereotype.Service;
 import com.example.hansub_project.model.member.dao.MemberDAO;
 import com.example.hansub_project.model.member.dto.MemberDTO;
 
-@Service
+@Service //서비스 빈 선언
 public class MemberSerivceImpl implements MemberService {
 
 	
-	@Inject
+	@Inject	//dao를 사용하기 위해 의존성을 주입
 	MemberDAO memberdao;
 	
 	
-	@Override
+	@Override	//회원가입 메소드, Map과 dto를 갖이 넘김
 	public void join(Map<String, Object>map,MemberDTO dto) {
 		memberdao.join(map,dto);
 
 	}
 
 
-	@Override
+	@Override	//로그인 관련 메소드 (세션에 아이디와 비밀번호를 저장)
 	public boolean loginCheck(MemberDTO dto, HttpSession session) {
 		
 		boolean result = memberdao.loginCheck(dto);

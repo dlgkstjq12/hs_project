@@ -9,6 +9,10 @@
 <br><%@ include file="../include/header.jsp"%>
 <br><%@ include file="../include/menu.jsp"%><br>
 
+
+<!-- 회원가입 페이지 -->
+
+
 <body>
 <center>
 <table border="1" width="300" height="300">

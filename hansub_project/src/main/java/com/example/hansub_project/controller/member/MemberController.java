@@ -1,9 +1,13 @@
 package com.example.hansub_project.controller.member;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.ws.Response;
@@ -21,22 +25,27 @@ import com.example.hansub_project.service.member.MemberService;
 import com.example.hansub_project.controller.member.MemberController;
 import com.example.hansub_project.model.member.dto.MemberDTO;
 
-@Controller
+@Controller	//컨트롤러 빈 선언
 public class MemberController {
 	
 	
-	@Inject
+	@Inject	//서비스를 호출하기 위해 의존성을 주입
 	MemberService memberservice;
 	
 	//로깅을 위한 변수
 		private static final Logger logger=
 				LoggerFactory.getLogger(MemberController.class);
 
+	
+	//회원가입 페이지 맵핑 메소드
 	@RequestMapping("/member/join.do")
 	public String join() {
 		return "member/join";
 	}
 	
+	
+	//회원가입 정보를 입력후 회원가입 버튼을 누르면 맵핑되는 메소드
+	//여러개의 값들을 담아야 하므로 map에 회원의 정보들을 저장해 놓는다.
 	@RequestMapping("/member/join.check.do")
 	public ModelAndView joincheck(String user_id, String member_pass, String e_mail) {
 
@@ -61,6 +70,7 @@ public class MemberController {
 	}
 	
 	
+		//로그인을 체크하는 메소드 (로그인이 성공하면 로그인 결과 페이지로 이동하고, 실패하면 다시 로그인 페이지로 이동한다.)
 	  @RequestMapping("login.do") public ModelAndView login (String user_id, String
 	  member_pass, HttpSession session) throws Exception{
 	  
@@ -71,7 +81,7 @@ public class MemberController {
 	  ModelAndView mav = new ModelAndView();
 	  
 	  if(result) { //로그인 성공 
-	mav.setViewName("member/login_result");//뷰의이름
+	  mav.setViewName("member/login_result");//뷰의이름
 	  mav.addObject("user_id", session.getAttribute(user_id));
 	  
 	  }else if(session.getAttribute(user_id)==null) { //로그인 실패
@@ -80,21 +90,21 @@ public class MemberController {
 	 
 	  mav.addObject("message","회원가입된 회원의 아이디 혹은 비밀번호가 일치하지 않습니다."); 
 	  } 
-	return mav; 
-}
+	  	return mav; 
+	}
 	
 	
 	//로그아웃 메소드
 	@RequestMapping("logout.do")
-	public String logout(HttpSession session) {
+	public String logout(HttpSession session, HttpServletRequest request) {
 		
 		//세션에 담긴값 초기화
-		session.invalidate();
-		
+		session.invalidate();	
 		return "home";
 	}
 	
 	
+	//네이버 로그인 관련 페이지 이동 메소드
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String login(HttpSession session) {
 		
@@ -103,12 +113,19 @@ public class MemberController {
 	}
 	
 	
-	
-	
+	//네이버 로그인 관련 페이지 이동 메소드
 	@RequestMapping(value = "login_result", method = RequestMethod.GET)
 	public String login_result(HttpSession session) {
 		
 		return "member/login_result";
+	}
+	
+	
+	//네이버 로그인 관련 페이지 이동 메소드
+	@RequestMapping(value = "home", method = RequestMethod.GET)
+	public String home(HttpSession session) {
+		
+		return "/home";
 	}
 	
 	
@@ -117,6 +134,7 @@ public class MemberController {
 	public String finduser_id() {
 		return "member/find_user_id";
 	}
+	
 	
 	//비밀번호 찾기 페이지로 이동
 	@RequestMapping("find.member_pass.do")
@@ -131,6 +149,7 @@ public class MemberController {
 		ModelAndView mav = new ModelAndView();
 		MemberDTO dto = new MemberDTO();
 		
+		//dto에 이메일 값을 저장해서 그 이메일값을 사용해서 아이디를 검색함
 		dto.setE_mail(e_mail);
 		String user_id = memberservice.find_idCheck(dto);
 		
@@ -147,7 +166,6 @@ public class MemberController {
 		
 		return mav;
 	}
-	
 	
 		//비밀번호 찾기 처리
 		@RequestMapping("find_pass.do")
@@ -169,10 +187,7 @@ public class MemberController {
 				mav.setViewName("member/find_member_pass");
 				//뷰에 전달할 값
 				mav.addObject("message", "회원가입된 회원의 아이디 혹은 이메일이 아닙니다.");
-			}
-			
+		}	
 			return mav;
-		}
-	
-	
+	}
 } 
