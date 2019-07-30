@@ -15,8 +15,7 @@
 <br>
 <br>
 
-<form action ="logout.do" method = "post">
-<button type = "submit" name = "submit" >로그아웃</button>
+
 </form>
 
 
@@ -47,7 +46,7 @@ callback 처리중입니다. 이 페이지에서는 callback을 처리하고 바
 				if (status) {
 					/* (5) 필수적으로 받아야하는 프로필 정보가 있다면 callback처리 시점에 체크 */
 					var email = naverLogin.user.getEmail();
-					var name = naverLogin.user.getNickName();
+					var navername = naverLogin.user.getNickName();
 					var profileImage = naverLogin.user.getProfileImage();
 					var birthday = naverLogin.user.getBirthday();			
 					var uniqId = naverLogin.user.getId();
@@ -62,14 +61,43 @@ callback 처리중입니다. 이 페이지에서는 callback을 처리하고 바
 					}
 					
 					//사용자의 이름을 출력하기 위해서 url로 name값을 같이 넘긴다.
-					window.location.replace("http://" + window.location.hostname + ( (location.port==""||location.port==undefined)?"":":" + location.port) + "/hansub_project/home?name="+name);
+					window.location.replace("http://" + window.location.hostname + ( (location.port==""||location.port==undefined)?"":":" + location.port) + "/hansub_project/home?navername="+navername);
 				} else {
 					console.log("callback 처리에 실패하였습니다.");
 				}
 			});
 		});
 	</script>
-	
+
+
+
+<script>
+ function signOut() {
+    	  	var auth2 = gapi.auth2.getAuthInstance();
+    	  	auth2.signOut().then(function(){
+    		console.log('User signed out.'); 
+    	  		});
+    	  	auth2.disconnect();
+    	  	 window.location.href("http://" + window.location.hostname + ( (location.port==""||location.port==undefined)?"":":" + location.port) + "/hansub_project/home");
+      }
+ </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </body>
 </html>

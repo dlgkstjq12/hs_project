@@ -52,6 +52,8 @@ public class MemberController {
 		MemberDTO dto = new MemberDTO();
 		Map<String, Object> map = new HashMap<>();
 		ModelAndView mv = new ModelAndView();
+		
+		//map에 저장해서 값을 넘기기 위해 dto에 아이디, 비밀번호, 메일주소를 저장함
 		dto.setUser_id(user_id);
 		dto.setMember_pass(member_pass);
 		dto.setE_mail(e_mail);
@@ -63,6 +65,7 @@ public class MemberController {
 		
 		memberservice.join(map,dto);
 		
+		//modelview에 보낼 id값과 페이지를 지정함
 		mv.setViewName("member/joinresult");
 		mv.addObject("user_id",user_id);
 	
@@ -74,13 +77,16 @@ public class MemberController {
 	  @RequestMapping("login.do") public ModelAndView login (String user_id, String
 	  member_pass, HttpSession session) throws Exception{
 	  
+		  //로그인 체크를 위해 id와 비밀번호를 dto에 저장
 	  MemberDTO dto = new MemberDTO(); 
 	  dto.setUser_id(user_id);
 	  dto.setMember_pass(member_pass); 
+	  
+	  
 	  boolean result = memberservice.loginCheck(dto, session); 
 	  ModelAndView mav = new ModelAndView();
 	  
-	  if(result) { //로그인 성공 
+	  if(result) { //로그인 성공 (result값이 참일때 실행되는 구문) 
 	  mav.setViewName("member/login_result");//뷰의이름
 	  mav.addObject("user_id", session.getAttribute(user_id));
 	  
@@ -93,16 +99,51 @@ public class MemberController {
 	  	return mav; 
 	}
 	
-	
-	//로그아웃 메소드
-	@RequestMapping("logout.do")
-	public String logout(HttpSession session, HttpServletRequest request) {
+	  
+	//일반 로그아웃 메소드
+		@RequestMapping("logout.do")
+		public String logout(HttpSession session, HttpServletRequest request) {
+			
+			//세션에 담긴값 초기화
+			session.invalidate();
+			
+			return "home";
+		} 
+	  
+	//네이버 관련 로그아웃 메소드
+	@RequestMapping("naver_logout.do")
+	public String naver_logout(HttpSession session, HttpServletRequest request) {
 		
 		//세션에 담긴값 초기화
-		session.invalidate();	
+		session.invalidate();
+		
 		return "home";
 	}
 	
+	
+		//카카오톡 관련 로그아웃 메소드
+		@RequestMapping("kakao_logout.do")
+		public String kakao_logout(HttpSession session, HttpServletRequest request) {
+			
+			//세션에 담긴값 초기화
+			session.invalidate();
+			
+			return "home";
+		}
+		
+		
+		//페이스북 관련 로그아웃 메소드
+		@RequestMapping("facebook_logout.do")
+		public String facebook_logout(HttpSession session, HttpServletRequest request) {
+			
+		//세션에 담긴값 초기화
+		session.invalidate();
+		
+					
+		return "home";
+	}
+		
+		
 	
 	//네이버 로그인 관련 페이지 이동 메소드
 	@RequestMapping(value = "login", method = RequestMethod.GET)

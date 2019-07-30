@@ -6,14 +6,14 @@
 <meta charset="UTF-8">
 <meta name="google-signin-scope" content="profile email">
 <meta name="google-signin-client_id" content="576736845363-o0474pib5q69qlcv6lm7o42hs6lu5u59.apps.googleusercontent.com">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name = "viewport" content = "user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,
+width=device-width" />
+
 <title>Insert title here</title>
+
 </head>
 <br><br><%@ include file="../include/header.jsp"%>
-
-
-
-
-
 
 <table border="1" width="200">
 
@@ -29,8 +29,8 @@
 <form action ="login.do" method = "post">
 <center>
 <br>
-<input type = "text" name="user_id" placeholder="ID를 입력하세요"><br><br>
-<input type = "password" name="member_pass" placeholder="비밀번호를 입력하세요"><br><br>
+-아이디-<input type = "text" name="user_id" placeholder="  ID를 입력하세요 "><br><br>
+-비밀번호-<input type = "password" name="member_pass" placeholder="  비밀번호를 입력하세요 "><br><br>
 <button type = "submit" name = "submit" >로그인</button>
 
 <br>
@@ -46,9 +46,7 @@
 </div>
 </center>
 
-
 <center>
-
 
 <html lang="ko">
 <head>
@@ -58,9 +56,9 @@
 <br>
 <!-- 네이버아이디로로그인 버튼 노출 영역 -->
 <div id="naverIdLogin"></div>
-<!-- //네이버아이디로로그인 버튼 노출 영역 -->
+<!-- //네이버 아이디로 로그인 버튼 노출 영역 -->
 
-<!-- 네이버아디디로로그인 초기화 Script -->
+<!-- 네이버 아이디로 로그인 초기화 Script -->
 <script type="text/javascript">
 	var naverLogin = new naver.LoginWithNaverId(
 		{
@@ -76,57 +74,140 @@
 	naverLogin.init();
 	
 </script>
-
 </center>
 
 
-<!-- 구글 로그인 관련 API -->
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-  </head>
-  <body>
-  <center>
-    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-    </center>
-    <center>
-    <script>
- 
-    	function signOut() {
-  	  	var auth2 = gapi.auth2.getAuthInstance();
-  	  	auth2.signOut().then(function(){
-  		console.log('User signed out.'); 
-  	  		});
-  	  	auth2.disconnect();
-  		}
-    
-      function onSignIn(googleUser) {
-        // Useful data for your client-side scripts:
-        var profile = googleUser.getBasicProfile();
-        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-        console.log('Full Name: ' + profile.getName());
-        console.log('Given Name: ' + profile.getGivenName());
-        console.log('Family Name: ' + profile.getFamilyName());
-        console.log("Image URL: " + profile.getImageUrl());
-        console.log("Email: " + profile.getEmail());
-        
-        //이메일을 넘기기위해 변수에 저장
-        var name = profile.getEmail();
-		
-        // The ID token you need to pass to your backend:
-        var id_token = googleUser.getAuthResponse().id_token;
-        console.log("ID Token: " + id_token);
-        
-        //변수의 값이 null이 아니면 name변수를 넘기고, null이면 값을 넘기지 않는다.
-	if (name !== null){
-		window.location.replace("http://" + window.location.hostname + ( (location.port==""||location.port==undefined)?"":":" + location.port) + "/hansub_project/home?name="+name);
-	} else if (name == null){
-		
-		window.location.replace("http://" + window.location.hostname + ( (location.port==""||location.port==undefined)?"":":" + location.port) + "/hansub_project/home");
-	}
-	
-      }
-     
-    </script>
 </center>
+
+<!-- 카카오톡 아이디 연동해서 로그인 -->
+<script src = "//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<a id="kakao-login-btn"></a>
+<a href="http://developers.kakao.com/logout"></a>
+<script type='text/javascript'>
+
+Kakao.init('bd21082a499aaa79b4c08e01935a8a70'); //아까 카카오개발자홈페이지에서 발급받은 자바스크립트 키를 입력함
+
+//카카오 로그인 버튼을 생성합니다. 
+
+Kakao.Auth.createLoginButton({ 
+	container: '#kakao-login-btn', 
+	success: function(authObj) { 
+		   Kakao.API.request({
+
+		       url: '/v1/user/me',
+
+		       success: function(res) {
+
+		             console.log(res.id);//<---- 콘솔 로그에 id 정보 출력(id는 res안에 있기 때문에  res.id 로 불러온다)
+
+		             console.log(res.kaccount_email);//<---- 콘솔 로그에 email 정보 출력 (어딨는지 알겠죠?)
+
+		             console.log(res.properties['nickname']);//<---- 콘솔 로그에 닉네임 출력(properties에 있는 nickname 접근 
+		            		 
+		         // res.properties.nickname으로도 접근 가능 )
+		             console.log(authObj.access_token);//<---- 콘솔 로그에 토큰값 출력
+		  
+		 
+		  var kakaonickname = res.properties.nickname;
+		  
+		 
+		  
+
+		  window.location.replace("http://" + window.location.hostname + ( (location.port==""||location.port==undefined)?"":":" + location.port) + "/hansub_project/home?kakaonickname="+kakaonickname);
+	  
+		           }
+		         })
+		       },
+		       fail: function(error) {
+		         alert(JSON.stringify(error));
+		       }
+		     });
+</script>
+
+
+<!-- 페이스북 아이디를 연동해서 로그인 -->
+
+ <center>
+<button type="button" id="loginBtn"><img src="file:///C:/Users/user/git/hs_project/hansub_project/src/main/webapp/WEB-INF/views/images/facelogin.jpg" />페이스북으로 로그인</button>
+ </center>
+
+            <div id="access_token"></div>
+            <div id="user_id"></div>
+            <div id="name"></div>
+            <div id="email"></div>
+            <div id="gender"></div>
+            <div id="birthday"></div>
+            <div id="id"></div>            
+            
+<script>
+function getUserData() {
+    /* FB.api('/me', function(response) {
+        document.getElementById('response').innerHTML = 'Hello ' + response.name;
+        console.log(response);
+    }); */
+    FB.api('/me', {fields: 'name,email'}, function(response) {
+        
+    	var facebookname = response.name;
+        window.location.replace("http://" + window.location.hostname + ( (location.port==""||location.port==undefined)?"":":" + location.port) + "/hansub_project/home?facebookname="+facebookname);
+
+    });
+}
+  
+window.fbAsyncInit = function() {
+    //SDK loaded, initialize it
+    FB.init({
+        appId      : '488986078336253',
+        cookie     : true,  // enable cookies to allow the server to access
+                // the session
+        xfbml      : true,  // parse social plugins on this page
+        version    : 'v3.3' // use graph api version 2.8
+    });
+  
+    //check user session and refresh it
+    FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+            //user is authorized
+            //document.getElementById('loginBtn').style.display = 'none';
+            getUserData();
+            
+        
+            
+        } else {
+            //user is not authorized
+        }
+    });
+};
+  
+//load the JavaScript SDK
+(function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.com/ko_KR/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+  
+//add event listener to login button
+document.getElementById('loginBtn').addEventListener('click', function() {
+    //do the login
+    FB.login(function(response) {
+        if (response.authResponse) {
+            access_token = response.authResponse.accessToken; //get access token
+            user_id = response.authResponse.userID; //get FB UID
+            console.log('access_token = '+access_token);
+            console.log('user_id = '+user_id);
+            //user just authorized your app
+            //document.getElementById('loginBtn').style.display = 'none';
+            getUserData();
+        }
+    }, {scope: 'email,public_profile,user_birthday',
+        return_scopes: true});
+}, false);
+
+
+
+</script>
+
 
 
 </form>
@@ -152,8 +233,8 @@
 </tr>
 </table>
 
-<body>
 
+<body>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
 	$(function(){
@@ -163,7 +244,6 @@
 		}
 	})
 </script>
-
 
 
 </body>
