@@ -15,4 +15,6 @@ public interface MemberService {
 	public String find_idCheck(MemberDTO dto);	//아이디 찾기 관련
 	public String find_passCheck(MemberDTO dto);	//비밀번호 찾기 관련
 	
+
+
 }

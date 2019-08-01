@@ -25,21 +25,23 @@
 		<div style="text-align:center;">
 			<tr>		
 				<td>
-					<form action="join.check.do" method="post">
+					<form action="join_check.do" method="post">
 					<center>
 						<div>
-							아이디 : <input type="text" name="user_id" placeholder="ID를 입력하세요.">
+							아이디 : <input type="text" name="user_id" placeholder="  ID를 입력하세요. ">
 						</div>
 						<br>
 						<div>
 							비밀번호 : <input type="password" name="member_pass"
-								placeholder="비밀번호를 입력하세요.">
+								placeholder="  비밀번호를 입력하세요. ">
 						</div>
 						<br>
 						<div>
 							이메일 : <input type="email" name="e_mail"
-								placeholder="이메일주소를 입력하세요.">
-						</div>
+								placeholder="  이메일주소를 입력하세요. ">
+						</div>						
+						
+						
 						<br> <br>
 						<button type="submit" name="submit">회원가입</button>
 					</center>

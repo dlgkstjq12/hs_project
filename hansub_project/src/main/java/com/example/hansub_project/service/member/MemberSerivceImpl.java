@@ -7,8 +7,12 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.example.hansub_project.MailHandler;
+import com.example.hansub_project.TempKey;
 import com.example.hansub_project.model.member.dao.MemberDAO;
 import com.example.hansub_project.model.member.dto.MemberDTO;
 
@@ -16,8 +20,10 @@ import com.example.hansub_project.model.member.dto.MemberDTO;
 public class MemberSerivceImpl implements MemberService {
 
 	
-	@Inject	//dao를 사용하기 위해 의존성을 주입
-	MemberDAO memberdao;
+	@Inject	
+	MemberDAO memberdao; //dao를 사용하기 위해 의존성을 주입
+	private JavaMailSender mailSender;
+
 	
 	
 	@Override	//회원가입 메소드, Map과 dto를 갖이 넘김
@@ -55,5 +61,7 @@ public class MemberSerivceImpl implements MemberService {
 		String pass = memberdao.find_passCheck(dto);
 		return pass;
 	}
+
+
 	
 }

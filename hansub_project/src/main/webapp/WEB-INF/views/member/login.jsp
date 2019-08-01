@@ -26,7 +26,7 @@ width=device-width" />
 
 
 <!-- 로그인창 -->
-<form action ="login.do" method = "post">
+<form action ="normale_login.do" method = "post">
 <center>
 <br>
 -아이디-<input type = "text" name="user_id" placeholder="  ID를 입력하세요 "><br><br>
@@ -156,19 +156,19 @@ function getUserData() {
 window.fbAsyncInit = function() {
     //SDK loaded, initialize it
     FB.init({
-        appId      : '488986078336253',
+        appId      : '488986078336253', //페이스북 개발자 홈페이지에서 앱을 등록하고, 앱 id를 받아온다.
         cookie     : true,  // enable cookies to allow the server to access
                 // the session
         xfbml      : true,  // parse social plugins on this page
-        version    : 'v3.3' // use graph api version 2.8
+        version    : 'v3.3' 	// 페이스북 개발자 홈페이지에서 버전을 확인한 후 작성한다.
     });
   
     //check user session and refresh it
     FB.getLoginStatus(function(response) {
-        if (response.status === 'connected') {
+        if (response.status === 'connected') {		//만약 정상적으로 실행되었다면 유저의 데이터를 가져온다.
             //user is authorized
             //document.getElementById('loginBtn').style.display = 'none';
-            getUserData();
+            getUserData(); 
             
         
             

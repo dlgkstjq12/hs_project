@@ -1,8 +1,10 @@
 package com.example.hansub_project.model.member.dao;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.mail.Session;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -53,6 +55,9 @@ public class MemberDAOImpl implements MemberDAO {
 		String pass = sqlSession.selectOne("member.find_pass_check", dto);
 		return pass;
 	}
+
+	
+	
 
 	
 }
