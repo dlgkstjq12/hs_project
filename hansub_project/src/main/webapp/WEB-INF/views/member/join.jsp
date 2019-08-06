@@ -37,10 +37,11 @@
 						</div>
 						<br>
 						<div>
-							이메일 : <input type="email" name="e_mail"
-								placeholder="  이메일주소를 입력하세요. ">
+							인증받은 이메일 : ${e_mail}
 						</div>						
 						
+						<!-- 이메일은 인증받은 이메일을 사용해야 하므로 컨트롤러에서 이메일을 가져와서 사용함 -->
+						<!-- 가져온후에 다시 컨트롤러로 넘긴후에 db에 저장하는 식으로 진행 -->
 						
 						<br> <br>
 						<button type="submit" name="submit">회원가입</button>

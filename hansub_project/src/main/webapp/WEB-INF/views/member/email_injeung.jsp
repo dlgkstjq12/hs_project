@@ -8,31 +8,27 @@
 </head>
 <body>
 
-
-
 <table border="1" width="300" height="300" align= "center">
 <center>
-<span style="color: green; font-weight: bold;">이메일 인증 (이메일을 인증 받아야 다음 단계로 넘어갈 수 있습니다.)</span> <br> <br>	
+<span style="color: green; font-weight: bold;">입력한 이메일로 받은 인증번호를 입력하세요. (인증번호가 맞아야 다음 단계로 넘어가실 수 있습니다.)</span> <br> <br>	
 		<br> <br>
 		
-		
-
 		
 		<div style="text-align:center;">
 			<tr>		
 				<td>
 				<center>
-					<form action="auth.do" method="post">
+					<form action="join_injeung.do${dice},${e_mail}" method="post">
 					
 					<center>
 						<br>
 						<div>
-							이메일 : <input type="email" name="e_mail"
-								placeholder="  이메일주소를 입력하세요. ">
-						</div>													
+							인증번호 입력 : <input type="number" name="email_injeung"
+								placeholder="  인증번호를 입력하세요. ">
+						</div>										
 
 						<br> <br>
-						<button type="submit" name="submit">이메일 인증받기 (이메일 보내기)</button>
+						<button type="submit" name="submit">인증번호 전송</button>
 
 						</div>
 					</td>
@@ -41,6 +37,7 @@
 			</table>
 		</form>
 </center>
+
 
 </body>
 </html>
