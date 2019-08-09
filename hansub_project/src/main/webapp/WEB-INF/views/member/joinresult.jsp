@@ -13,13 +13,25 @@
 <br>
 <br>
 
-안녕하세요, ${user_id}님 <br>
+안녕하세요, ${user_id}님 <br><br>
+<% System.getProperty("line.separator");%>
+<% System.getProperty("line.separator");%>
 
-환영합니다!!<br>
 
-회원가입이 정상적으로 이루어 졌습니다.<br>
+환영합니다!!<br><br>
+<% System.getProperty("line.separator");%>
+<% System.getProperty("line.separator");%>
 
-로그인 하시면 홈페이지 내의 모든 서비스를 이용하실 수 있습니다.<br>
+
+회원가입이 정상적으로 이루어 졌습니다.<br><br>
+<% System.getProperty("line.separator");%>
+<% System.getProperty("line.separator");%>
+
+
+로그인 하시면 홈페이지 내의 모든 서비스를 이용하실 수 있습니다.<br><br>
+<% System.getProperty("line.separator");%>
+<% System.getProperty("line.separator");%>
+
 
 </body>
 </html>

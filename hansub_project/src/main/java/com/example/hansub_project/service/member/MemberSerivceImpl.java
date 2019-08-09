@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.hansub_project.MailHandler;
-import com.example.hansub_project.TempKey;
 import com.example.hansub_project.model.member.dao.MemberDAO;
 import com.example.hansub_project.model.member.dto.MemberDTO;
 

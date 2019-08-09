@@ -50,9 +50,10 @@ public class MemberController {
 	
 	@Inject	//서비스를 호출하기 위해서 의존성을 주입
 	JavaMailSender mailSender; 	//메일 서비스를 사용하기 위해 의존성을 주입함.
+	
+	
+	@Inject
 	MemberService memberservice; //서비스를 호출하기 위해 의존성을 주입
-	
-	
 	
 	
 	//로깅을 위한 변수
@@ -61,7 +62,7 @@ public class MemberController {
 	private static final String String = null;
 	
 	
-	// mailSending 코드
+	// mailSending 코드 (회원가입시 이메일 인증 메소드.)
 		@RequestMapping( value = "/member/auth.do" , method=RequestMethod.POST )
 		public ModelAndView mailSending(HttpServletRequest request, String e_mail, HttpServletResponse response_email) throws IOException {
 
@@ -193,6 +194,53 @@ public class MemberController {
 	}
 	
 	
+	
+	// mailSending 코드 (메인페이지에서 메일을 보낼때 맵핑되는 메소드)
+			@RequestMapping(value = "e_mailForm.do" , method=RequestMethod.POST )
+			public ModelAndView main_mailSending(HttpServletRequest request, String sender_front, String sender_back, 
+			String recipient_front, String recipient_back, String title, String text, HttpServletResponse response_email) throws IOException {
+				
+		
+				String setfrom = request.getParameter("sender_front")+request.getParameter("sender_back");			//보내는 사람 이메일
+				String tomail = request.getParameter("recipient_front")+request.getParameter("recipient_back"); 	// 받는 사람 이메일
+				String mail_title = request.getParameter("title"); 													// 제목
+				String content = request.getParameter("text");														//이메일 내용
+				
+				System.out.println(setfrom); 		//값이 잘 담겼는지 테스트
+				System.out.println(tomail);			
+				System.out.println(mail_title);
+				System.out.println(content);
+				
+				
+				try {
+					MimeMessage message = mailSender.createMimeMessage();
+					MimeMessageHelper messageHelper = new MimeMessageHelper(message,
+							true, "UTF-8");
+
+					messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
+					messageHelper.setTo(tomail); // 받는사람 이메일
+					messageHelper.setSubject(mail_title); // 메일제목은 생략이 가능하다
+					messageHelper.setText(content); // 메일 내용
+					
+					mailSender.send(message);
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+				
+				ModelAndView mv = new ModelAndView();	//ModelAndView로 보낼 페이지를 지정하고, 보낼 값을 지정한다.
+				mv.setViewName("home"); 	//뷰의이름
+
+				response_email.setContentType("text/html; charset=UTF-8");
+	            PrintWriter out_email = response_email.getWriter();
+	            out_email.println("<script>alert('이메일이 발송되었습니다.');</script>");
+	            out_email.flush();
+				
+				
+				return mv;
+				
+			}
+	
+	
 	private boolean email_injeung(java.lang.String dice) {
 		// TODO Auto-generated method stub
 		return false;
@@ -212,8 +260,8 @@ public class MemberController {
 	
 	//회원가입 정보를 입력후 회원가입 버튼을 누르면 맵핑되는 메소드
 	//여러개의 값들을 담아야 하므로 map에 회원의 정보들을 저장해 놓는다.
-	@RequestMapping("/member/join_check.do")
-	public ModelAndView joincheck(String user_id, String member_pass, String e_mail, Model model, HttpServletRequest request) {
+	@RequestMapping("/member/join_check.do{e_mail}")
+	public ModelAndView joincheck(String user_id, String member_pass, @PathVariable String e_mail, Model model, HttpServletRequest request) {
 
 		MemberDTO dto = new MemberDTO();
 		Map<String, Object> map = new HashMap<>();
@@ -230,7 +278,7 @@ public class MemberController {
 	
 		//값을 여러개담아야 하므로 해쉬맵을 사용해서 값을 저장함
 		map.put("user_id", dto.getUser_id());
-		map.put("member_pass", member_pass);
+		map.put("member_pass", dto.getMember_pass());
 		map.put("e_mail",dto.getE_mail());
 		
 		memberservice.join(map,dto);
@@ -441,11 +489,6 @@ public class MemberController {
 
 		    return "member/number";
 		  }
-		
-		
-		
-		
-		
 		
 		
 }

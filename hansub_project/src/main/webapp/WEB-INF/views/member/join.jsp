@@ -25,7 +25,7 @@
 		<div style="text-align:center;">
 			<tr>		
 				<td>
-					<form action="join_check.do" method="post">
+					<form action="join_check.do${e_mail}" method="post">
 					<center>
 						<div>
 							아이디 : <input type="text" name="user_id" placeholder="  ID를 입력하세요. ">

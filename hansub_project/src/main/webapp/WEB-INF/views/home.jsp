@@ -15,8 +15,9 @@
 
 <body>
 	<center>
-		<a href="${path}">메인페이지</a> ㅣ <a href="${path}/member/email.do">회원가입</a>ㅣ 
-		<a href="${path}/member/member_board.do">회원게시판</a> ㅣ <a
+		<a href="${path}">메인페이지</a> ㅣ
+		 <a href="${path}/member/email.do">회원가입</a>ㅣ 
+		<a href="list.do">회원게시판</a> ㅣ <a
 			href="${path}/member/member_best_board.do">베스트게시판</a> ㅣ <a
 			href="${path}/member/admin_board.do">공지사항</a> ㅣ <br> <br>
 	</center>
@@ -35,7 +36,7 @@
 <span style="color: green; font-weight: bold;">SMS 전송 (문자보내기)</span>
  </center>
     <ul>
-      <li>보낼사람 : <input type="text" name="from" placeholder=" 전화번호 입력 ( '-' 포함 )"/></li><br>
+      <li>받는 사람 : <input type="text" name="from" placeholder=" 전화번호 입력 ( '-' 포함 )"/></li><br>
       <li>내용 : <textarea name="text" placeholder=" 보낼 내용 입력 "></textarea>    </li><br>
       <center>
       <input type="button" onclick="sendSMS('sendSms')" value="전송하기" /><br>
@@ -55,9 +56,76 @@
     	$("#smsForm").submit();
     }
   </script>
+  
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
  
-  <br>
-  <br>
+  <!-- 이메일 보내기 폼 -->
+<form action ="e_mailForm.do" method = "post">
+<table border = "1" align="right" width = "450" height = "250" >
+
+<tr>
+<td>
+<center>
+<br>
+<span style="color: green; font-weight: bold;">이메일 보내기</span>
+ </center>
+    <ul>
+      <li>보내는 사람 : <input type="text" name="sender_front" placeholder="이메일 아이디 입력">
+      <select type = "text" name = "sender_back"  >
+      		
+      			<option value = "@naver.com">@naver.com</option>				
+      			<option value = "@hanmail.net">@hanmail.net</option>
+      			<option value = "@gmail.com">@gmail.com</option>
+      
+      </select>
+      </li>
+      <br>
+      
+      
+      <li>받는 사람 : <input type="text" name = "recipient_front" placeholder="이메일 아이디 입력">
+      <select name="recipient_back" type="text" >
+      
+      			<option value = "@naver.com">@naver.com</option>				
+      			<option value = "@hanmail.net">@hanmail.net</option>
+      			<option value = "@gmail.com">@gmail.com</option>
+      			<option value = "@chol.com">@chol.com</option>				
+      			<option value = "@empal.com">@empal.com</option>
+      			<option value = "@freechal.com">@freechal.com</option>
+      			<option value = "@hanmir.com">@hanmir.com</option>				
+      			<option value = "@hitel.net">@hitel.net</option>
+      			<option value = "@nete.com">@nate.com</option>
+      			
+			
+      </select>
+      </li>
+      <br>
+      
+      
+      <li>제목 : <input type="text" name="title" placeholder=" 이메일의 제목 입력"/></li><br>
+      <li>내용 : <textarea name="text" name = "text" placeholder=" 보낼 내용 입력 "></textarea>    </li><br>
+      <center>
+      <button type = "submit" name = "submit" >이메일 전송</button>
+      </center>
+    </ul>
+
+    </td>
+    </tr>
+    </table>
+  </form>
+
+  
 
 	<!-- url 파라미터로 받은 로그인한 아이디 값이 있을시에는 "name+방문을 환영한다"고 출력이 되고, null값일 때에는 "guest님 방문을 환영합니다" 메시지가 출력되도록 한다.-->
 	

@@ -128,7 +128,7 @@ Kakao.Auth.createLoginButton({
 <!-- 페이스북 아이디를 연동해서 로그인 -->
 
  <center>
-<button type="button" id="loginBtn"><img src="file:///C:/Users/user/git/hs_project/hansub_project/src/main/webapp/WEB-INF/views/images/facelogin.jpg" />페이스북으로 로그인</button>
+<button type= "button" id= "loginBtn" ><img src= "C:\Users\user\git\hs_project\hansub_project\src\main\webapp\WEB-INF\views\images\facelogin.png" />페이스북 로그인</button>
  </center>
 
             <div id="access_token"></div>
