@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 
 </head>
-<br><%@ include file="../include/header.jsp"%>
-<br><%@ include file="../include/menu.jsp"%><br>
+<%@ include file="../include/header.jsp"%>
+<%@ include file="../include/menu.jsp"%><br>
 
 
 <!-- 회원가입 페이지 -->

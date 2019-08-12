@@ -20,21 +20,24 @@ public class MemberBoardDAOImpl implements MemberBoardDAO {
 	SqlSession sqlSession; 
 	
 	
+	//게시글 쓰기
 	@Override
 	public void create(MemberBoardDTO dto) throws Exception {
-		// TODO Auto-generated method stub
+		sqlSession.insert("memberboard.insert",dto);
 		
 	}
 
+	//게시글 수정 
 	@Override
 	public void update(MemberBoardDTO dto) throws Exception {
-		// TODO Auto-generated method stub
+		sqlSession.update("memberboard.update", dto);
 		
 	}
 
+	//게시물 삭제 관련
 	@Override
 	public void delete(int member_bno) throws Exception {
-		// TODO Auto-generated method stub
+		sqlSession.delete("memberboard.deleteArticle", member_bno); //mapper로 게시글 번호를 넘긴다.
 		
 	}
 	
@@ -51,10 +54,11 @@ public class MemberBoardDAOImpl implements MemberBoardDAO {
 		//매개변수는 시작 레코드의 번호, 끝 번호, 옵션과 키워드가 들어간다.
 		return sqlSession.selectList("memberboard.listAll", map);
 	}
-
+	
+	//조회수 증가처리를 하는 메소드
 	@Override
 	public void increateViewcnt(int member_bno) throws Exception {
-		// TODO Auto-generated method stub
+		sqlSession.update("memberboard.increaseViewcnt", member_bno);
 		
 	}
 
@@ -64,10 +68,11 @@ public class MemberBoardDAOImpl implements MemberBoardDAO {
 		return 0;
 	}
 
+	//게시글 상세정보 
 	@Override
 	public MemberBoardDTO read(int member_bno) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return sqlSession.selectOne("memberboard.read", member_bno);
 	}
 
 

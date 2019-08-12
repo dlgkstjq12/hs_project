@@ -1,5 +1,6 @@
 package com.example.hansub_project.model.member.dao;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import com.example.hansub_project.model.member.dto.MemberDTO;
 @Repository
 public class MemberDAOImpl implements MemberDAO {
 
+	
 	@Inject
 	SqlSession sqlSession;
 	
@@ -30,6 +32,7 @@ public class MemberDAOImpl implements MemberDAO {
 		sqlSession.insert("member.insertUser",map);		
 	}
 	
+	
 	//로그인관련 메소드
 	@Override
 	public boolean loginCheck(MemberDTO dto) {
@@ -40,6 +43,7 @@ public class MemberDAOImpl implements MemberDAO {
 		return (name==null) ? false : true;
 	}
 
+	
 	//아이디 찾기 관련 메소드
 	@Override
 	public String find_idCheck(MemberDTO dto) {
@@ -55,9 +59,6 @@ public class MemberDAOImpl implements MemberDAO {
 		String pass = sqlSession.selectOne("member.find_pass_check", dto);
 		return pass;
 	}
-
-	
-	
 
 	
 }

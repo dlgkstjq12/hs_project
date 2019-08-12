@@ -27,6 +27,4 @@ public interface MemberBoardService {
 	//레코드 갯수를 계산
 	public int countArticle(String search_option, String keyword) throws Exception;
 	
-	
-	
 }

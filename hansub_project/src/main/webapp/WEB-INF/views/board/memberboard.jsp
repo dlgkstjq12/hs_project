@@ -7,16 +7,28 @@
 <title>Insert title here</title>
 <%@ include file="../include/header.jsp"%>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
 <script>
+//게시판 목록 페이지로 이동하게 하는 함수
 function list(page){
 	console.log("페이지를 이동합니다.");
 	location.href="list.do?curPage="+page;
-}
+};
+
+//글쓰기 폼으로 이동하게 하는 함수
+$(function(){	
+		$("#btnWrite").click(function(){
+			location.href="write.do";
+		});
+});
+
 </script>
 
+
 </head>
+<%@ include file="../include/menu.jsp"%><br><br>
 <body>
-<br><%@ include file="../include/menu.jsp"%><br>
+
 <center>
 <h2>회원 게시판</h2>
 <table border = "1" width = "600px">
@@ -35,7 +47,12 @@ function list(page){
 	<c:forEach var = "row" items = "${map.list}"> <!-- 컨트롤러에서 map안에 list를 넣었기 때문에 이렇게 받는다. -->
 	<tr>
 		<td>${row.member_bno}</td>	<!-- 글번호 -->
-		<td>${row.title}</td>	<!-- 글제목 -->
+		<!-- 클릭하면 컨트롤러의 view.do로 이동하고, 게시물번호, 페이지 번호, 검색옵션, 키워드를 같이 넘긴다 -->
+		<td>
+		<a href="view.do?member_bno=${row.member_bno}      
+&curPage=${map.pager.curPage}
+&search_option=${map.search_option} 
+&keyword=${map.keyword}">${row.title}</a></td>	<!-- 글제목 -->
 		<td>${row.user_id}</td>	<!-- 작성자의 이름 -->
 		<td>${row.content}</td>	<!-- 글의내용 -->
 		<td>${row.reg_date}</td>	<!-- 날짜의 출력형식을 변경함 -->
@@ -106,7 +123,12 @@ function list(page){
     </select>
     <input name="keyword" value="${map.keyword}">
     <input type="submit" value="조회">
+   
+   <button type = "button" id = "btnWrite" align = "right">글쓰기</button>
+   
 </form>
+
+ 
 
 
 </center>

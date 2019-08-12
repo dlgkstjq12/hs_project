@@ -7,8 +7,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
-<br><%@ include file="../include/header.jsp"%>
-<br><%@ include file="../include/menu.jsp"%><br>
+</head>
+<%@ include file="../include/header.jsp"%>
+<%@ include file="../include/menu.jsp"%><br>
 <body>
 <br>
 <br>

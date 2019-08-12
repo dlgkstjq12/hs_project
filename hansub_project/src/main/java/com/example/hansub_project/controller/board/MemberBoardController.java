@@ -1,17 +1,22 @@
 package com.example.hansub_project.controller.board;
 
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,7 +37,7 @@ public class MemberBoardController {
 		private static final Logger logger=
 		LoggerFactory.getLogger(MemberBoardController.class);
 	
-	@RequestMapping("list.do")	//세부적인 url mapping
+	@RequestMapping("/board/list.do")	//세부적인 url mapping
 	public ModelAndView list(//RequestParam으로 옵션, 키워드, 페이지의 기본값을 각각 설정해준다.
 			
 			@RequestParam(defaultValue="1") int curPage,
@@ -63,6 +68,7 @@ public class MemberBoardController {
 		map.put("count", count);
 		map.put("search_option", search_option);
 		map.put("keyword", keyword);
+	
 		mav.addObject("map", map);					//modelandview에 map를 저장
 		
 		System.out.println("map : "+map);
@@ -71,5 +77,93 @@ public class MemberBoardController {
 		return mav;	//게시판 페이지로 이동
 	
 	}
-
+	
+	//글쓰기 버튼을 눌렀을때 뷰에서 맵핑되는 메소드
+	@RequestMapping("/board/write.do")
+		public String write(HttpSession session, HttpServletResponse write) throws Exception{
+		//글쓰기 폼 페이지로 이동함
+		
+		String user_id = (String)session.getAttribute("user_id");
+		
+		if (user_id == null) {
+			
+			write.setContentType("text/html; charset=UTF-8");
+            PrintWriter out_write = write.getWriter();
+            out_write.println("<script>alert('로그인이 되어있지 않습니다. 로그인을 먼저 해주세요.');</script>");
+            out_write.flush();
+			
+            return "home";
+            
+		} else {
+			
+			return "board/memberboardwrite";	//회원게시판 글쓰기 폼으로 이동함
+		}
+		
+	}
+	
+	
+	//write.jsp에서 입력한 내용들이 MemberBoardDTO에 저장됨
+	@RequestMapping("/board/insert.do")
+	public String insert (@ModelAttribute MemberBoardDTO dto, HttpSession session, HttpServletResponse insert) throws Exception{
+		
+		//로그인한 사용자의 아이디를 체크
+		String user_id = (String)session.getAttribute("user_id");
+		dto.setUser_id(user_id);
+		
+		
+		
+		
+		insert.setContentType("text/html; charset=UTF-8");
+        PrintWriter out_write = insert.getWriter();
+        out_write.println("<script>alert('글이 작성되었습니다.');</script>");
+        out_write.flush();
+        
+        
+        	//레코드를 저장함
+      		memberboardservice.create(dto);
+		
+		
+		//게시물을 저장한 후에 게시물 목록페이지로 다시 이동함
+		return "forward:/board/list.do";
+		}
+	
+	@RequestMapping(value = "/board/view.do", method=RequestMethod.GET)
+	public ModelAndView view(@RequestParam int member_bno,
+			@RequestParam int curPage,
+	        @RequestParam String search_option,
+	        @RequestParam String keyword,
+	        HttpSession session) throws Exception{
+		
+		//조회수 증가 쿼리
+		memberboardservice.increaseViewcnt(member_bno, session);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("board/memberboardview");
+		
+		//view로 자료를 넘기기위해서 mav에 값들을 저장해서 view.jsp로 리턴시킨다.
+		mav.addObject("dto", memberboardservice.read(member_bno)); //상세보기를 한번 클릭하면 조회수를 1증가시킨다.
+		mav.addObject("curPage", curPage);
+		mav.addObject("search_option", search_option);
+		mav.addObject("keyword", keyword);
+		
+		return mav; 	//view로 넘어가서 출력이 된다.
+	}
+	
+	//게시물 삭제 관련 메소드
+	@RequestMapping("/board/delete.do")
+	public String delete (int member_bno) throws Exception{
+		
+		memberboardservice.delete(member_bno);	//삭제 처리
+		return "forward:/board/list.do";	//게시물 삭제후 게시물 리스트페이지로 이동함
+	
+	}
+	
+	
+	//게시물 수정 관련 메소드
+	@RequestMapping("/board/update.do")
+	public String update (MemberBoardDTO dto) throws Exception{
+		
+		memberboardservice.update(dto);	//게시글 수정 처리
+		return "forward:/board/list.do";	//게시글 수정후 게시물 리스트 페이지로 이동함
+	}
 }

@@ -20,6 +20,4 @@ public interface MemberBoardDAO {
 	
 	public MemberBoardDTO read (int member_bno) throws Exception;	//레코드 조회
 	
-	
-	
 }

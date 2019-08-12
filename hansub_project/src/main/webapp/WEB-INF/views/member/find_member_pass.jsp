@@ -5,9 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>비밀번호 찾기 페이지</title>
-<br><%@ include file="../include/header.jsp"%>
-<br><%@ include file="../include/menu.jsp"%><br>
+
 </head>
+<%@ include file="../include/header.jsp"%>
+<%@ include file="../include/menu.jsp"%><br>
 <body>
 
 <!-- 비밀번호 찾기 페이지 -->

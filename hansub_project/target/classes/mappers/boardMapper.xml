@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
-<!-- 회원가입 -->
+
 <mapper namespace="memberboard">
 	
 	<!-- rownum을 rn이란 문자로 줄여쓴다. 밑에 from문을 A로 줄여쓴다.  -->
@@ -62,5 +62,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </choose>
     </sql>
 
+<insert id = "insert">
+
+<!-- 게시글 번호는 시퀀스로 하고 생성할때마다 숫자가 1씩 하도록 설정함 -->
+<!-- 제목, 글내용, 작성자를 삽입함 -->
+insert into member_board (member_bno, title, content, user_id) values
+        ( (select nvl(max(member_bno),0)+1 from member_board), #{title}, #{content}, #{user_id} )
+
+</insert>
+
+<!-- 조회수 증가처리를 하는 구문 -->
+<update id = "increaseViewcnt">
+<!-- 글번호에 해당하는 조회수를 +1하는 쿼리문 -->
+update member_board set viewcnt=viewcnt+1
+where member_bno=#{bno}
+</update>
+
+
+
+<!-- 게시글 상세정보를 확인하는 쿼리문 -->
+<select id = "read" 
+resultType = "com.example.hansub_project.model.board.dto.MemberBoardDTO">
+
+<!-- member_board테이블의 작성자와 member테이블의 아이디가 같고, 글번호가 클릭한 글번호와 같은 글번호와 같은
+글번호, 제목, 조회수, 날짜, 내용, 이름, 작성자를 검색한다. -->
+select member_bno, title, reg_date, content, viewcnt, user_id
+from member_board
+where member_bno=#{member_bno}
+
+</select>
+
+
+<!-- 게시물 삭제 관련 쿼리 -->
+
+<delete id = "deleteArticle">
+	delete from member_board where member_bno=#{member_bno}
+</delete>
+
+
+<!-- 게시글 수정 관련 쿼리 -->
+
+<update id = "update">
+update member_board
+	set title=#{title},content=#{content}
+	where member_bno=#{member_bno}
+
+</update>
 
 </mapper>
