@@ -19,8 +19,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<!-- ref는 다른테이블을 의미한다. -->
 		<!-- 번호, 제목, 작성자, 이름, 날짜, 조회수 , 그리고 댓글의 갯수를 검색 -->
 		<!-- board 테이블과 member 테이블로 부터 검색 -->
-			select member_bno, user_id, reg_date, viewcnt, title, rcnt, content, recommend			
-			from member_board
+			select member_bno, user_id, reg_date, viewcnt, title, 
+			(select count(*) from member_reply where member_bno=b.member_bno) rcnt,
+			content, recommend			
+			from member_board b
 			<!-- bno의 내림차순으로 검색 -->
 			<!-- where절은 (조건)은 include 태그를 이용했음 -->
 		<include refid="search" />
@@ -64,7 +66,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <insert id = "insert">
 
-<!-- 게시글 번호는 시퀀스로 하고 생성할때마다 숫자가 1씩 하도록 설정함 -->
+<!-- 게시글 번호는 시퀀스로 하지말고 최대값 +1로 게시글 번호를 설정함 -->
+<!-- 시퀀스로 할 경우 글이 삭제될시 번호가 꼬일 수 있기 때문에 -->
 <!-- 제목, 글내용, 작성자를 삽입함 -->
 insert into member_board (member_bno, title, content, user_id) values
         ( (select nvl(max(member_bno),0)+1 from member_board), #{title}, #{content}, #{user_id} )

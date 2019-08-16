@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.example.hansub_project.Pager;
 import com.example.hansub_project.controller.member.MemberController;
 import com.example.hansub_project.model.board.dto.MemberBoardDTO;
+import com.example.hansub_project.model.board.dto.MemberBoardReplyDTO;
 import com.example.hansub_project.service.board.MemberBoardService;
 import com.example.hansub_project.service.member.MemberService;
 
@@ -70,6 +71,7 @@ public class MemberBoardController {
 		map.put("keyword", keyword);
 	
 		mav.addObject("map", map);					//modelandview에 map를 저장
+		
 		
 		System.out.println("map : "+map);
 		mav.setViewName("board/memberboard");				//자료를 넘길 뷰의 이름
@@ -152,7 +154,6 @@ public class MemberBoardController {
 	//게시물 삭제 관련 메소드
 	@RequestMapping("/board/delete.do")
 	public String delete (int member_bno) throws Exception{
-		
 		memberboardservice.delete(member_bno);	//삭제 처리
 		return "forward:/board/list.do";	//게시물 삭제후 게시물 리스트페이지로 이동함
 	

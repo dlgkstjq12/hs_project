@@ -42,6 +42,7 @@ $(function(){
 		<th>날짜</th>
 		<th>조회수</th>
 		<th>추천수</th>
+
 		
 	<!-- forEach var = "개별데이터" items = "집합데이터" -->
 	<c:forEach var = "row" items = "${map.list}"> <!-- 컨트롤러에서 map안에 list를 넣었기 때문에 이렇게 받는다. -->
@@ -52,12 +53,19 @@ $(function(){
 		<a href="view.do?member_bno=${row.member_bno}      
 &curPage=${map.pager.curPage}
 &search_option=${map.search_option} 
-&keyword=${map.keyword}">${row.title}</a></td>	<!-- 글제목 -->
+&keyword=${map.keyword}">${row.title}</a>
+<c:if test="${row.rcnt > 0}"> 
+   <span style="color:red;">( ${row.rcnt} )</span> 
+</c:if>  
+</td>
+
 		<td>${row.user_id}</td>	<!-- 작성자의 이름 -->
 		<td>${row.content}</td>	<!-- 글의내용 -->
 		<td>${row.reg_date}</td>	<!-- 날짜의 출력형식을 변경함 -->
 		<td>${row.viewcnt}</td>	<!-- 조회수 -->
 		<td>${row.recommend}</td>	<!-- 추천수 -->
+
+
 	
 	</tr>
 	</c:forEach>
