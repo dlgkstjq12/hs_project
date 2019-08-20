@@ -23,7 +23,6 @@ $(function(){
 
 	//수정 버튼
 	$("#btnUpdate").click(function(){
-    //첨부파일 이름들을 폼에 추가
     if(confirm("수정하시겠습니까?")){
     document.form1.action="update.do";
     document.form1.submit();
@@ -63,7 +62,7 @@ $(function(){
 function listReply(){
 	$.ajax({
 		type: "get",	//get방식으로 자료를 전달
-		url: "reply_list.do?member_bno=${dto.member_bno}",	//컨트롤러에 있는 list.do로 맵핑되고 게시글 번호도 같이 보낸다.
+		url: "reply_list.do?member_bno=${dto.member_bno}&curPage=${curPage}&search_option=${search_option}&keyword=${keyword}",	//컨트롤러에 있는 list.do로 맵핑되고 게시글 번호도 같이 보낸다.
 		success: function(result){	//자료를 보내는것이 성공했을때 출력되는 메시지
 			
 			//댓글목록을 실행한 결과를 가져온다.
@@ -111,6 +110,21 @@ $("#btnDelete").click(function(){
         document.form1.submit();
     	}
 	});
+	
+	
+//추천하기 버튼
+$("#btnRecommend").click(function(){
+    if(confirm("해당 글을 추천하시겠습니까?")){
+        document.form1.action="recommend.do";
+        document.form1.submit();
+        
+        alert("해당 글을 추천하였습니다.")
+        
+    	}
+	});
+
+	
+	
 });
 
 
@@ -119,8 +133,8 @@ $("#btnDelete").click(function(){
 
 <h2>게시물 보기</h2>
 <!-- 게시물을 작성하기 위해 컨트롤러의 insert.do로 맵핑 -->
-<form id="form1" name="form1" method="post"
-action="${path}/board/insert.do"></form>
+<form id="form1" name="form1" method="post" action="${path}/board/insert.do">
+<input type = "hidden" id = "member_bno" name = "member_bno" value = "${dto.member_bno }">
     <div>제목 <input name="title" id="title" size="80"
                     value="${dto.title}"
                     placeholder="제목을 입력하세요"><br><br>
@@ -131,7 +145,7 @@ action="${path}/board/insert.do"></form>
         <textarea id="content" name="content"
 rows="3" cols="80" 
 placeholder="내용을 입력하세요">${dto.content}</textarea></div><br><br>
-
+</form>
 
 
  
@@ -154,21 +168,30 @@ CKEDITOR.replace("r_content",{
 	
 	<!-- 본인만 수정, 삭제 버튼을 표시한다. -->
 	<c:if test = "${sessionScope.user_id == dto.user_id }">
-			<button type = "button" id = "btnUpdate">수정</button>
+			<button type = "submit" id = "btnUpdate">수정</button>
 			<button type = "button" id = "btnDelete">삭제</button>
 	</c:if>
+	
+	<!-- 로그인이 되어있고, 본인 글이 아닐경우에만 추천할 수 있도록 버튼을 출력 -->
+	<c:if test = "${sessionScope.user_id != null and sessionScope.user_id != dto.user_id}">
+			<button type = "button" id = "btnRecommend">추천하기</button>
+	
+	</c:if>
+	
 	
 	<!-- 글목록은 본인이 아니어도 확인 가능하게 한다. -->
 	<button type = "button" id = "btnList">목록</button><br><br>
 	
 	<!-- 로그인이 되어있는 상태에서만 댓글 작성 버튼이 출력되도록 한다. -->
+	
 	<c:if test = "${sessionScope.user_id != null }">
 	
-	<textarea rows = "5" cols = "80" id = "r_content" name = "r_content"
-		placeholder = "댓글을 작성하세요"></textarea>
+	<textarea rows = "5" cols = "80" id = "r_content" name = "r_content"></textarea>
 	<br>
 	
+	
 	<!-- 댓글쓰기 버튼을 클릭하면 위쪽에 있는 자바스크립트 구문이 실행되어서 컨트롤러로 맵핑됨 --><br><br>
+	
 	<button type = "button" id = "btnReply">댓글쓰기</button>
 	</c:if>
 	

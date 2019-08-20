@@ -58,7 +58,7 @@ public class MemberBoardDAOImpl implements MemberBoardDAO {
 	//조회수 증가처리를 하는 메소드
 	@Override
 	public void increateViewcnt(int member_bno) throws Exception {
-		sqlSession.update("memberboard.increaseViewcnt", member_bno);
+		
 		
 	}
 
@@ -73,6 +73,13 @@ public class MemberBoardDAOImpl implements MemberBoardDAO {
 	public MemberBoardDTO read(int member_bno) throws Exception {
 		
 		return sqlSession.selectOne("memberboard.read", member_bno);
+	}
+
+	//추천수 증가처리 메소드
+	@Override
+	public void recommend(int member_bno) throws Exception {
+		
+		sqlSession.update("memberboard.recommend", member_bno);
 	}
 
 

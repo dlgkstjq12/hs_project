@@ -20,4 +20,7 @@ public interface MemberBoardDAO {
 	
 	public MemberBoardDTO read (int member_bno) throws Exception;	//레코드 조회
 	
+	
+	public void recommend(int member_bno) throws Exception;		//추천하기 메소드
+	
 }

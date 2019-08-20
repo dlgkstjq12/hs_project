@@ -29,14 +29,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<update id = "updateReply">
 	<!-- 댓글의 번호와 회원의 아이디가 모두다 같을경우에만 수정할 수 있도록 쿼리를 설정 -->	
-	update member_reply set r_content = #{r_content} where rno = ${rno} and user_id = ${user_id}
+	update member_reply set r_content = #{r_content} where rno = #{rno}
 	</update>
 
 
 	
 	<delete id="deleteReply">
 	<!-- 댓글의 번호가 같을 경우에 삭제할 수 있도록 설정 (아이디는 앞에서 같지않으면 버튼조차 뜨지 않기때문에 따로 쿼리를 추가할 필요 없다.) -->
-	delete from member_reply where rno = ${rno}
+	delete from member_reply where rno = #{rno}
 	</delete>
 
 

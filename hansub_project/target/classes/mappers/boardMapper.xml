@@ -78,7 +78,7 @@ insert into member_board (member_bno, title, content, user_id) values
 <update id = "increaseViewcnt">
 <!-- 글번호에 해당하는 조회수를 +1하는 쿼리문 -->
 update member_board set viewcnt=viewcnt+1
-where member_bno=#{bno}
+where member_bno=#{member_bno}
 </update>
 
 
@@ -111,5 +111,20 @@ update member_board
 	where member_bno=#{member_bno}
 
 </update>
+
+
+
+<update id = "recommend">
+update member_board
+set recommend = recommend+1 
+where member_bno = #{member_bno} 
+
+</update>
+
+
+
+
+
+
 
 </mapper>

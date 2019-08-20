@@ -29,9 +29,32 @@ $(function(){
 <%@ include file="../include/menu.jsp"%><br><br>
 <body>
 
+<c:if test = "${sessionScope.user_id == null }">
+
+(guest)님 방문을 환영합니다. 	<br>
+								<br>
+								
+로그인을 하셔야 다른 기능을 정상적으로 이용하실 수 있습니다. <br>
+		
+<%@ include file="../member/login_form.jsp"%><br>
+	
+</c:if>
+
+
+<c:if test = "${sessionScope.user_id != null}">
+
+${sessionScope.user_id}님이 로그인 하셨습니다.
+
+</c:if>
+
+
+
+
+
+
 <center>
 <h2>회원 게시판</h2>
-<table border = "1" width = "600px">
+<table border = "1" width = "600px" align = "top">
 <center>
 	<tr>
 	

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -129,7 +130,7 @@ public class MemberBoardController {
 		return "forward:/board/list.do";
 		}
 	
-	@RequestMapping(value = "/board/view.do", method=RequestMethod.GET)
+	@RequestMapping(value = "/board/view.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView view(@RequestParam int member_bno,
 			@RequestParam int curPage,
 	        @RequestParam String search_option,
@@ -167,4 +168,17 @@ public class MemberBoardController {
 		memberboardservice.update(dto);	//게시글 수정 처리
 		return "forward:/board/list.do";	//게시글 수정후 게시물 리스트 페이지로 이동함
 	}
+	
+	
+	//게시물 추천 관련 메소드
+	@RequestMapping("/board/recommend.do")
+	public String recommend (@RequestParam int member_bno) throws Exception {
+		
+		memberboardservice.recommend(member_bno);
+		
+		
+		
+		return "forward:/board/list.do";
+	}
+	
 }

@@ -16,6 +16,7 @@ public class MemberBoardReplyDTO {
 	public int getRno() {
 		return rno;
 	}
+	
 	public void setRno(int rno) {
 		this.rno = rno;
 	}

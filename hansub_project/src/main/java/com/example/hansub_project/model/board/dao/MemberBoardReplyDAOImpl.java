@@ -48,7 +48,7 @@ public class MemberBoardReplyDAOImpl implements MemberBoardReplyDAO {
 	//댓글의 삭제
 	@Override
 	public void reply_delete(int rno) {
-		sqlSession.update("reply.deleteReply", rno);
+		sqlSession.delete("reply.deleteReply", rno);
 	}
 
 }

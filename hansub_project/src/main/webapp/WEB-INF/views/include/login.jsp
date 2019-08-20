@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<%@ include file="header.jsp"%>
 
 
 <body>
@@ -71,7 +72,7 @@ if (navername == null && kakaonickname == null && facebookname == null && normal
 	<% 
 		} else if (normalname != null){
 	%>
-	<%=" (일반) "+session.getAttribute("normalname")%>님 방문을 환영합니다.
+	(일반) ${sessionScope.user_id}님 방문을 환영합니다.
 	
 	<form action = "logout.do" method = "post">
 	<button type = "submit" name = "submit">로그아웃</button></form>

@@ -84,6 +84,15 @@ public class MemberBoardServiceImpl implements MemberBoardService {
 		return 0;
 	}
 
+	@Override
+	public void recommend(int member_bno) throws Exception {
+		
+
+		
+		memberboarddao.recommend(member_bno);
+		
+		}
+
+	}
 
 
-}
