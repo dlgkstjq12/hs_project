@@ -30,8 +30,6 @@ $(function(){
 		});
 
 
-
-
 	//댓글쓰기 버튼 (버튼을 눌러서 id값이 넘어와서 실행되는 자바스크립트 구문)
 	listReply();
 
@@ -48,6 +46,7 @@ $(function(){
 		url: "reply_insert.do", //데이터를 보낼 url
 		data: params, //보낼 데이터
 	
+		
 		success: function(data){//데이터를 보내는 것이 성공했을 시 출력되는 메시지
 			alert("댓글이 등록되었습니다.");
 			listReply2();
@@ -167,13 +166,16 @@ CKEDITOR.replace("r_content",{
 	<input type = "hidden" name = "member_bno" value = "${dto.member_bno }">
 	
 	<!-- 본인만 수정, 삭제 버튼을 표시한다. -->
-	<c:if test = "${sessionScope.user_id == dto.user_id }">
+	<c:if test = "${sessionScope.user_id == dto.user_id or sessionScope.navername == dto.user_id or sessionScope.kakaonickname == dto.user_id or sessionScope.facebookname == dto.user_id}">
 			<button type = "submit" id = "btnUpdate">수정</button>
 			<button type = "button" id = "btnDelete">삭제</button>
 	</c:if>
 	
 	<!-- 로그인이 되어있고, 본인 글이 아닐경우에만 추천할 수 있도록 버튼을 출력 -->
-	<c:if test = "${sessionScope.user_id != null and sessionScope.user_id != dto.user_id}">
+	<c:if test = "${sessionScope.user_id != null and sessionScope.user_id != dto.user_id
+	or sessionScope.navername != null and sessionScope.navername != dto.user_id
+	or sessionScope.kakaonickname != null and sessionScope.kakaonickname != dto.user_id
+	or sessionScope.facebookname != null and sessionScope.facebookname != dto.user_id}">
 			<button type = "button" id = "btnRecommend">추천하기</button>
 	
 	</c:if>
@@ -184,7 +186,8 @@ CKEDITOR.replace("r_content",{
 	
 	<!-- 로그인이 되어있는 상태에서만 댓글 작성 버튼이 출력되도록 한다. -->
 	
-	<c:if test = "${sessionScope.user_id != null }">
+	<c:if test = "${sessionScope.user_id != null or sessionScope.navername != null 
+	or sessionScope.kakaonickname != null or sessionScope.facebookname != null}">
 	
 	<textarea rows = "5" cols = "80" id = "r_content" name = "r_content"></textarea>
 	<br>

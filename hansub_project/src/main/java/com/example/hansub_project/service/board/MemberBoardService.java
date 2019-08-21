@@ -27,6 +27,6 @@ public interface MemberBoardService {
 	//레코드 갯수를 계산
 	public int countArticle(String search_option, String keyword) throws Exception;
 	
-	public void recommend(int member_bno) throws Exception;
+	public void recommend(int member_bno) throws Exception;	//게시글 추천관련
 	
 }

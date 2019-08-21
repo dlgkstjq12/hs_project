@@ -14,6 +14,7 @@ public interface MemberService {
 	public boolean loginCheck(MemberDTO dto, HttpSession session);	//로그인 관련
 	public String find_idCheck(MemberDTO dto);	//아이디 찾기 관련
 	public String find_passCheck(MemberDTO dto);	//비밀번호 찾기 관련
+	public void authentication(MemberDTO dto);		//회원 인증관련 메소드
 	
 
 

@@ -491,4 +491,56 @@ public class MemberController {
 		  }
 		
 		
+		
+		//소셜 로그인을 한 후에 소셜 로그인한 회원의 정보를 데이터베이스에 저장하기 위한 메소드
+		//view에서 회원인증 버튼을 누르면 맵핑되는 메소드 이다.
+		@RequestMapping("authentication.do")
+		public String authentication (HttpSession session) throws Exception{
+			
+			MemberDTO dto =  new MemberDTO();
+			
+			//파라미터는 오브젝트 타입으로 전송되므로 String 타입으로 타입변환을 해준후에 변수에 저장을 해야한다)
+			if (session.getAttribute("navere_mail") != null && session.getAttribute("navername") != null) {
+				
+			String e_mail = (String)session.getAttribute("navere_mail");
+			String user_id = (String)session.getAttribute("navername");
+				
+			dto.setE_mail(e_mail);
+			dto.setUser_id(user_id);
+			
+			}
+			
+			
+			if (session.getAttribute("kakaoe_mail") != null && session.getAttribute("kakaonickname") != null) {
+				
+			String e_mail = (String)session.getAttribute("kakaoe_mail");
+			String user_id = (String)session.getAttribute("kakaonickname");
+					
+			dto.setE_mail(e_mail);
+			dto.setUser_id(user_id);
+				
+			}
+			
+
+			if (session.getAttribute("facebooke_mail") != null && session.getAttribute("facebookname") != null) {
+				
+				String e_mail = (String)session.getAttribute("facebooke_mail");
+				String user_id = (String)session.getAttribute("facebookname");
+						
+				dto.setE_mail(e_mail);
+				dto.setUser_id(user_id);
+					
+			}
+			
+			
+			memberservice.authentication(dto);
+			
+			
+			System.out.println("<script>alert('회원인증이 완료되었습니다. 다른 기능들을 정상적으로 사용하실 수 있습니다.');</script>");
+			
+			
+			return "home";
+			
+		}
+	
 }

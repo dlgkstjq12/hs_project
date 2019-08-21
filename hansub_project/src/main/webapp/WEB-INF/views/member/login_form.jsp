@@ -108,12 +108,12 @@ Kakao.Auth.createLoginButton({
 		             console.log(authObj.access_token);//<---- 콘솔 로그에 토큰값 출력
 		  
 		 
-		  var kakaonickname = res.properties.nickname;
-		  
+		  var kakaonickname = res.properties.nickname;	//카카오톡 닉네임을 변수에 저장
+		  var kakaoe_mail = res.properties.kaccount_email;	//카카오톡 이메일을 변수에 저장함
 		 
 		  
 
-		  window.location.replace("http://" + window.location.hostname + ( (location.port==""||location.port==undefined)?"":":" + location.port) + "/hansub_project/home?kakaonickname="+kakaonickname);
+		  window.location.replace("http://" + window.location.hostname + ( (location.port==""||location.port==undefined)?"":":" + location.port) + "/hansub_project/home?kakaonickname="+kakaonickname+"&kakaoe_mail="+kakaoe_mail);
 	  
 		           }
 		         })
@@ -147,8 +147,11 @@ function getUserData() {
     }); */
     FB.api('/me', {fields: 'name,email'}, function(response) {
         
-    	var facebookname = response.name;
-        window.location.replace("http://" + window.location.hostname + ( (location.port==""||location.port==undefined)?"":":" + location.port) + "/hansub_project/home?facebookname="+facebookname);
+    	var facebookname = response.name;	//페이스북 아이디를 변수에 저장함
+    	var facebooke_mail = response.email;	//페이스북 이메일을 변수에 저장함
+    	
+    	
+        window.location.replace("http://" + window.location.hostname + ( (location.port==""||location.port==undefined)?"":":" + location.port) + "/hansub_project/home?facebookname="+encodeURI(facebookname)+"&facebooke_mail="+facebooke_mail);
 
     });
 }

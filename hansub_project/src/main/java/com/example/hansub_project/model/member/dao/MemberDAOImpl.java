@@ -61,4 +61,13 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	
+	//회원 인증 관련 메소드
+	//버튼을 클릭한 회원의 정보를 회원 테이블에 저장해서 사용할 수 있게 함
+	@Override
+	public void authentication(MemberDTO dto) {
+		
+		sqlSession.insert("member.authentication", dto);
+		
+	}
+	
 }

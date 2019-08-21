@@ -61,7 +61,7 @@ callback 처리중입니다. 이 페이지에서는 callback을 처리하고 바
 					}
 					
 					//사용자의 이름을 출력하기 위해서 url로 name값을 같이 넘긴다.
-					window.location.replace("http://" + window.location.hostname + ( (location.port==""||location.port==undefined)?"":":" + location.port) + "/hansub_project/home?navername="+navername);
+					window.location.replace("http://" + window.location.hostname + ( (location.port==""||location.port==undefined)?"":":" + location.port) + "/hansub_project/home?navername="+encodeURI(navername)+"&navere_mail="+email);
 				} else {
 					console.log("callback 처리에 실패하였습니다.");
 				}

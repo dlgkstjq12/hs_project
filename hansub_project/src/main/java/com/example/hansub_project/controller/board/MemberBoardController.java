@@ -86,9 +86,34 @@ public class MemberBoardController {
 		public String write(HttpSession session, HttpServletResponse write) throws Exception{
 		//글쓰기 폼 페이지로 이동함
 		
-		String user_id = (String)session.getAttribute("user_id");
+		if (session.getAttribute("user_id") != null) {
+			
+			String user_id = (String)session.getAttribute("user_id");
+			
+			}
+			
+			//소셜 로그인이 되어있을 경우에 실행되는 구문 유저의 아이디를 dto에 저장한다.
+			else if (session.getAttribute("navername") != null) {
+				
+				String user_id = (String)session.getAttribute("navername");
+				
+			}
+			
+			else if (session.getAttribute("kakaonickname") != null) {
+				
+				String user_id = (String)session.getAttribute("kakaonickname");
+				
+				
+			}
+			
+			
+			else if (session.getAttribute("facebookname") != null) {
+				
+				String user_id = (String)session.getAttribute("facebookname");
 		
-		if (user_id == null) {
+			}else
+		
+		if (session.getAttribute("user_id") == null && session.getAttribute("navername") == null && session.getAttribute("kakaonickname") == null && session.getAttribute("facebookname") == null ) {
 			
 			write.setContentType("text/html; charset=UTF-8");
             PrintWriter out_write = write.getWriter();
@@ -97,23 +122,50 @@ public class MemberBoardController {
 			
             return "home";
             
-		} else {
-			
-			return "board/memberboardwrite";	//회원게시판 글쓰기 폼으로 이동함
-		}
+		} 
 		
+		return "board/memberboardwrite";	//글쓰기 폼으로 이동함
 	}
-	
 	
 	//write.jsp에서 입력한 내용들이 MemberBoardDTO에 저장됨
 	@RequestMapping("/board/insert.do")
 	public String insert (@ModelAttribute MemberBoardDTO dto, HttpSession session, HttpServletResponse insert) throws Exception{
 		
 		//로그인한 사용자의 아이디를 체크
+		
+		if (session.getAttribute("user_id") != null) {
+		
 		String user_id = (String)session.getAttribute("user_id");
+		
 		dto.setUser_id(user_id);
 		
+		}
 		
+		//소셜 로그인이 되어있을 경우에 실행되는 구문 유저의 아이디를 dto에 저장한다.
+		else if (session.getAttribute("navername") != null) {
+			
+			String user_id = (String)session.getAttribute("navername");
+			
+			dto.setUser_id(user_id);
+			
+		}
+		
+		else if (session.getAttribute("kakaonickname") != null) {
+			
+			String user_id = (String)session.getAttribute("kakaonickname");
+			
+			dto.setUser_id(user_id);
+			
+		}
+		
+		
+		else if (session.getAttribute("facebookname") != null) {
+			
+			String user_id = (String)session.getAttribute("facebookname");
+			
+			dto.setUser_id(user_id);
+			
+		}
 		
 		
 		insert.setContentType("text/html; charset=UTF-8");

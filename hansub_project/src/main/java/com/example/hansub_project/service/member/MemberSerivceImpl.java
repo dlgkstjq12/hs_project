@@ -62,5 +62,12 @@ public class MemberSerivceImpl implements MemberService {
 	}
 
 
+	@Override
+	public void authentication(MemberDTO dto) {
+		
+		memberdao.authentication(dto);
+	}
+
+
 	
 }

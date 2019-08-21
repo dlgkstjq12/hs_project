@@ -125,10 +125,9 @@
     </table>
   </form>
 
-<%@ include file="include/login.jsp"%>
 
 
-	
+<%@ include file="include/login.jsp"%><br>
 	
 	
 </body>

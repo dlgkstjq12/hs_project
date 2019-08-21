@@ -30,17 +30,20 @@ public class MemberBoardReplyServiceImpl implements MemberBoardReplyService {
 		memberboardreplydao.create(dto);
 
 	}
-
+	
+	//댓글 갯수
 	@Override
 	public int count(int member_bno) {
 		return 0;
 	}
 
+	//댓글 수정
 	@Override
 	public void reply_update(MemberBoardReplyDTO dto) {
 		memberboardreplydao.reply_update(dto);		
 	}
 
+	//댓글 삭제
 	@Override
 	public void delete(int rno) {
 		memberboardreplydao.reply_delete(rno);

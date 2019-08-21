@@ -25,6 +25,7 @@ public class MemberBoardReplyDAOImpl implements MemberBoardReplyDAO {
 		
 	}
 
+	//댓글의 갯수
 	@Override
 	public int count(int member_bno) {
 		return 0;

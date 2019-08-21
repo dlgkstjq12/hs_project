@@ -114,16 +114,14 @@ update member_board
 
 
 
+<!-- 게시글 추천 관련 쿼리 -->
+
 <update id = "recommend">
 update member_board
 set recommend = recommend+1 
 where member_bno = #{member_bno} 
 
 </update>
-
-
-
-
 
 
 

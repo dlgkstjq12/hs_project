@@ -10,22 +10,95 @@
 
 
 <body>
+<!-- 세션에 id값이 저장되어 있는 경우 로그아웃 버튼과 로그인한 아이디가 출력되도록 코드를 작성함 -->
+
+<c:if test = "${sessionScope.user_id != null}">
+
+(일반)${sessionScope.user_id}님이 로그인 하셨습니다.<br>
+
+<form action = "logout.do" method = "post">
+<button type = "submit" name = "submit">로그아웃</button></form><br>
+
+</c:if>
+
+
+<c:if test = "${sessionScope.navername != null}">
+
+(네이버)${sessionScope.navername}님이 로그인 하셨습니다.<br>
+
+<form action = "naver_logout.do" method = "post">
+<button type = "submit" name = "submit">로그아웃</button></form><br>
+
+<form action = "authentication.do" method = "post">
+<button type = "submit" name = "submit">회원 인증하기 (인증을 해야 각종 기능들 사용 가능)</button></form><br>
+
+</c:if>
+
+
+<c:if test = "${sessionScope.kakaonickname != null}">
+
+(카카오톡)${sessionScope.kakaonickname}님이 로그인 하셨습니다.<br>
+
+<form action = "kakao_logout.do" method = "post">
+<button type = "submit" name = "submit">로그아웃</button></form><br>
+
+<form action = "authentication.do" method = "post">
+<button type = "submit" name = "submit">회원 인증하기 (인증을 해야 각종 기능들 사용 가능)</button></form><br>
+
+</c:if>
+
+
+
+<c:if test = "${sessionScope.facebookname != null}">
+
+(페이스북)${sessionScope.facebookname}님이 로그인 하셨습니다.<br>
+
+<form action = "facebook_logout.do" method = "post">
+<button type = "submit" name = "submit">로그아웃</button></form><br>
+
+
+<form action = "authentication.do" method = "post">
+<button type = "submit" name = "submit">회원 인증하기 (인증을 해야 각종 기능들 사용 가능)</button></form><br>
+
+</c:if>
+
+
+
+
+<c:if test = "${sessionScope.user_id == null and sessionScope.navername == null and sessionScope.kakaonickname == null and sessionScope.facebookname == null }">
 
 <%
+//url로 보낸 아이디를 세션에 저장하기 위해 변수에 저장함
 String navername = request.getParameter("navername");
 String kakaonickname = request.getParameter("kakaonickname");
 String facebookname = request.getParameter("facebookname");
 String normalname = request.getParameter("user_id");
+
+
+//url로 보낸 이메일를 세션에 저장하기 위해 변수에 저장함
+String navere_mail = request.getParameter("navername");
+String kakaoe_mail = request.getParameter("kakaonickname");
+String facebooke_mail = request.getParameter("facebookname");
+
 %>	
 
 
 <%
+//아이디를 세션에 저장
 session.setAttribute("navername", navername);
 session.setAttribute("kakaonickname", kakaonickname);
 session.setAttribute("facebookname", facebookname);
 session.setAttribute("normalname", normalname);
 
+
+//이메일을 세션에 저장
+session.setAttribute("navere_mail", navere_mail);
+session.setAttribute("kakaoe_mail", kakaoe_mail);
+session.setAttribute("facebooke_mail", facebooke_mail);
+
+
 if (navername == null && kakaonickname == null && facebookname == null && normalname == null) {
+	
 %>
 
 (guest)님 방문을 환영합니다. 	<br>
@@ -35,51 +108,14 @@ if (navername == null && kakaonickname == null && facebookname == null && normal
 		
 	<%@ include file="../member/login_form.jsp"%><br>
 	
-	<!-- 네이버 로그인이 되어있으면 출력되는 구문 -->
-	<%
-		} else if (navername != null){
-	%>
-	<%=" (네이버) "+session.getAttribute("navername")%>님 방문을 환영합니다.
-	
-	<form action ="naver_logout.do" method = "post">
-	<button type = "submit" name = "submit" >로그아웃</button>
-	</form>
-	
-	<!-- 카카오톡 로그인이 되어있으면 출력되는 구문 -->
-	
-	<%	
-		} else if (kakaonickname != null){
-	%>
-	
-	<%=" (카카오톡) "+session.getAttribute("kakaonickname")%>님 방문을 환영합니다.
-	
-	<form action = "kakao_logout.do" method = "post">
-	<button type = "submit" name = "submit">로그아웃</button></form>
+<%
+
+	} 
+
+%>
 	
 	
-	<!-- 페이스북 로그인이 되어있으면 출력되는 구문 -->
-	<%
-		} else if (facebookname != null){
-	%>
-	
-	<%=" (페이스북) "+session.getAttribute("facebookname")%>님 방문을 환영합니다.
-	
-	<form action = "facebook_logout.do" method = "post">
-	<button type = "submit" name = "submit">로그아웃</button></form>
-	
-	
-	<!-- (일반) 회원가입된 회원이 로그인이 되어있으면 출력되는 구문 -->
-	<% 
-		} else if (normalname != null){
-	%>
-	(일반) ${sessionScope.user_id}님 방문을 환영합니다.
-	
-	<form action = "logout.do" method = "post">
-	<button type = "submit" name = "submit">로그아웃</button></form>
-	<%
-		};
-	%>
-	<br>
+	</c:if>
 
 </body>
 </html>

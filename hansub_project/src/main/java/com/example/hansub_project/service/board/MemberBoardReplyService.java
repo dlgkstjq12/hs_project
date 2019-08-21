@@ -8,9 +8,9 @@ public interface MemberBoardReplyService {
 	
 	public List<MemberBoardReplyDTO> list(int member_bno);	//댓글의 리스트
 
-	public void create(MemberBoardReplyDTO dto);
+	public void create(MemberBoardReplyDTO dto);	//댓글 생성
 
-	public int count(int member_bno);
+	public int count(int member_bno);	//댓글 갯수
 
 	public void reply_update(MemberBoardReplyDTO dto);	//댓글 수정
 

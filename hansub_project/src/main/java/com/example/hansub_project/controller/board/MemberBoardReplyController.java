@@ -84,11 +84,44 @@ public class MemberBoardReplyController {
 		
 		//댓글 작성자 아이디
 		//현재 접속중인 사용자의 아이디
-		String user_id = (String)session.getAttribute("user_id");
 		
+		if (session.getAttribute("user_id") != null) {
+			
+		String user_id = (String)session.getAttribute("user_id");
 		dto.setUser_id(user_id);
+		
+		}
+		
+		
+		//소셜로그인한 아이디도 받아와야 하기때문에 세션에 저장된 아이디값들을 추가함
+		
+		if (session.getAttribute("navername") != null) {
+			
+			String user_id = (String)session.getAttribute("navername");
+			dto.setUser_id(user_id);
+			
+		}
+		
+		
+		if (session.getAttribute("kakaonickname") != null) {
+			
+			String user_id = (String)session.getAttribute("kakaonickname");
+			dto.setUser_id(user_id);
+			
+		}
+		
+		
+		if (session.getAttribute("facebookname") != null) {
+			
+			String user_id = (String)session.getAttribute("facebookname");
+			dto.setUser_id(user_id);
+			
+		}
+		
+		
 		dto.setR_content(r_content);
 		dto.setMember_bno(member_bno);
+		
 		
 		//댓글이 테이블에 저장된다
 		memberboardreplyService.create(dto);

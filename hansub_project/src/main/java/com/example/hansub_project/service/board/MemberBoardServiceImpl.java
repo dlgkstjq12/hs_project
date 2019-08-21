@@ -84,10 +84,9 @@ public class MemberBoardServiceImpl implements MemberBoardService {
 		return 0;
 	}
 
+	//게시글 추천관련 메소드 구현
 	@Override
 	public void recommend(int member_bno) throws Exception {
-		
-
 		
 		memberboarddao.recommend(member_bno);
 		
