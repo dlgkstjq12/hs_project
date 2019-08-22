@@ -116,6 +116,22 @@ ${row.r_content}
 
 
 </c:if>
+
+<!-- 관리자아이디로 로그인했을 경우에 삭제버튼을 출력 -->
+<c:if test = "${sessionScope.admin_id != null}">
+
+<button type = "button" id = "btn_reply_Delete" >댓글 삭제</button>
+
+
+</c:if>
+
+
+
+
+
+
+
+
 </div>
 
 

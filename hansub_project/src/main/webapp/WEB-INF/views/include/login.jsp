@@ -10,6 +10,7 @@
 
 
 <body>
+<br>
 <!-- 세션에 id값이 저장되어 있는 경우 로그아웃 버튼과 로그인한 아이디가 출력되도록 코드를 작성함 -->
 
 <c:if test = "${sessionScope.user_id != null}">
@@ -63,9 +64,19 @@
 </c:if>
 
 
+<c:if test = "${sessionScope.admin_id != null}">
+
+(관리자)${sessionScope.admin_id}님이 로그인 하셨습니다.<br>
+
+<form action = "logout.do" method = "post">
+<button type = "submit" name = "submit">로그아웃</button></form><br>
+
+</c:if>
 
 
-<c:if test = "${sessionScope.user_id == null and sessionScope.navername == null and sessionScope.kakaonickname == null and sessionScope.facebookname == null }">
+
+
+<c:if test = "${sessionScope.user_id == null and sessionScope.navername == null and sessionScope.kakaonickname == null and sessionScope.facebookname == null and sessionScope.admin_id == null}">
 
 <%
 //url로 보낸 아이디를 세션에 저장하기 위해 변수에 저장함
@@ -73,6 +84,7 @@ String navername = request.getParameter("navername");
 String kakaonickname = request.getParameter("kakaonickname");
 String facebookname = request.getParameter("facebookname");
 String normalname = request.getParameter("user_id");
+String admin_id = request.getParameter("admin_id");
 
 
 //url로 보낸 이메일를 세션에 저장하기 위해 변수에 저장함
@@ -89,6 +101,7 @@ session.setAttribute("navername", navername);
 session.setAttribute("kakaonickname", kakaonickname);
 session.setAttribute("facebookname", facebookname);
 session.setAttribute("normalname", normalname);
+session.setAttribute("admin_id", admin_id);
 
 
 //이메일을 세션에 저장
@@ -97,7 +110,7 @@ session.setAttribute("kakaoe_mail", kakaoe_mail);
 session.setAttribute("facebooke_mail", facebooke_mail);
 
 
-if (navername == null && kakaonickname == null && facebookname == null && normalname == null) {
+if (navername == null && kakaonickname == null && facebookname == null && normalname == null && admin_id == null) {
 	
 %>
 

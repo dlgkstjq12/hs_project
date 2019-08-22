@@ -131,4 +131,17 @@
 	
 	
 </body>
+
+<!-- 로그인 실패나 성공시 메시지를 받아서 출력하는 자바스크립트 구문 -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+	$(function(){
+		var responseMessage = "<c:out value="${message}" />";
+		if (responseMessage != ""){
+			alert(responseMessage)
+		}
+	})
+</script>
+
+
 </html>

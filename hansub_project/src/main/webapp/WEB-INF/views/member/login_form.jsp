@@ -21,7 +21,7 @@ width=device-width" />
 <td>
 <br>
 <center>
-<span style="color:green; font-weight : bold;">로그인</span>
+<span style="color:green; font-weight : bold;">회원 로그인</span>
 </center>
 
 
@@ -238,6 +238,7 @@ document.getElementById('loginBtn').addEventListener('click', function() {
 
 
 <body>
+<!-- 로그인 실패나 성공시 메시지를 받아서 출력하는 자바스크립트 구문 -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
 	$(function(){

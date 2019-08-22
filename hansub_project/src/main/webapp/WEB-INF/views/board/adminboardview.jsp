@@ -17,14 +17,14 @@ $(function(){
 	
 	//목록 버튼
 	$("#btnList").click(function(){
-    	location.href="list.do";
+    	location.href="admin_list.do";
 	});
 
 
 	//수정 버튼
 	$("#btnUpdate").click(function(){
     if(confirm("수정하시겠습니까?")){
-    document.form1.action="update.do";
+    document.form1.action="admin_update.do";
     document.form1.submit();
     		}
 		});
@@ -37,13 +37,13 @@ $(function(){
 	$("#btnReply").click(function(){
 		
 	var r_content = $("#r_content").val();	//댓글의 내용
-	var member_bno =  "${dto.member_bno}";
-	var params = {"r_content" : r_content, "member_bno" : member_bno};
+	var bno =  "${dto.bno}";
+	var params = {"r_content" : r_content, "bno" : bno};
 	
 	
 	$.ajax({
 		type: "post", //데이터를 보낼 방식
-		url: "reply_insert.do", //데이터를 보낼 url
+		url: "admin_reply_insert.do", //데이터를 보낼 url
 		data: params, //보낼 데이터
 	
 		
@@ -61,7 +61,7 @@ $(function(){
 function listReply(){
 	$.ajax({
 		type: "get",	//get방식으로 자료를 전달
-		url: "reply_list.do?member_bno=${dto.member_bno}&curPage=${curPage}&search_option=${search_option}&keyword=${keyword}",	//컨트롤러에 있는 list.do로 맵핑되고 게시글 번호도 같이 보낸다.
+		url: "admin_reply_list.do?bno=${dto.member_bno}&curPage=${curPage}&search_option=${search_option}&keyword=${keyword}",	//컨트롤러에 있는 list.do로 맵핑되고 게시글 번호도 같이 보낸다.
 		success: function(result){	//자료를 보내는것이 성공했을때 출력되는 메시지
 			
 			//댓글목록을 실행한 결과를 가져온다.
@@ -77,7 +77,7 @@ function listReply2(){
 	$.ajax({
 		type: "get",
 		contentType: "application/json",
-		url: "reply_list_json.do?member_bno=${dto.member_bno}",
+		url: "admin_reply_list_json.do?bno=${dto.bno}",
 		success: function(result){
 			console.log(result);
 			var output="<table>";
@@ -105,7 +105,7 @@ function listReply2(){
 //삭제 버튼
 $("#btnDelete").click(function(){
     if(confirm("삭제하시겠습니까?")){
-        document.form1.action="delete.do";
+        document.form1.action="admin_delete.do";
         document.form1.submit();
     	}
 	});
@@ -114,7 +114,7 @@ $("#btnDelete").click(function(){
 //추천하기 버튼
 $("#btnRecommend").click(function(){
     if(confirm("해당 글을 추천하시겠습니까?")){
-        document.form1.action="recommend.do";
+        document.form1.action="admin_recommend.do";
         document.form1.submit();
         
         alert("해당 글을 추천하였습니다.")
@@ -127,13 +127,12 @@ $("#btnRecommend").click(function(){
 });
 
 
-
 </script>
 
-<h2>게시물 보기</h2>
+<h2>공지사항 보기</h2>
 <!-- 게시물을 작성하기 위해 컨트롤러의 insert.do로 맵핑 -->
-<form id="form1" name="form1" method="post" action="${path}/board/insert.do">
-<input type = "hidden" id = "member_bno" name = "member_bno" value = "${dto.member_bno }">
+<form id="form1" name="form1" method="post" action="${path}/board/admin_insert.do">
+<input type = "hidden" id = "bno" name = "bno" value = "${dto.bno }">
     <div>제목 <input name="title" id="title" size="80"
                     value="${dto.title}"
                     placeholder="제목을 입력하세요"><br><br>
@@ -163,17 +162,14 @@ CKEDITOR.replace("r_content",{
 
 <div style = "width:700px; text-align:center;">
 <!-- 수정, 삭제에 필요한 글번호를 hidden 태그에 저장한다. -->
-	<input type = "hidden" name = "member_bno" value = "${dto.member_bno }">
+	<input type = "hidden" name = "bno" value = "${dto.bno }">
 	
-	<!-- 본인만 수정, 삭제 버튼을 표시한다. -->
-	<c:if test = "${sessionScope.user_id == dto.user_id or sessionScope.navername == dto.user_id or sessionScope.kakaonickname == dto.user_id or sessionScope.facebookname == dto.user_id}">
-			<button type = "submit" id = "btnUpdate">수정</button>
-			<button type = "button" id = "btnDelete">삭제</button>
-	</c:if>
+	
 	
 	
 	<!-- 관리자에게는 삭제 버튼을 표시한다. -->
 	<c:if test = "${sessionScope.admin_id != null}">
+			<button type = "submit" id = "btnUpdate">수정</button>
 			<button type = "button" id = "btnDelete">삭제</button>
 	</c:if>
 	
