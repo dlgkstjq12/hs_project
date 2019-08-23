@@ -59,7 +59,7 @@ public class MemberBoardDAOImpl implements MemberBoardDAO {
 	@Override
 	public void increateViewcnt(int member_bno) throws Exception {
 		
-		
+		sqlSession.update("memberboard.increaseViewcnt", member_bno);
 	}
 
 	@Override

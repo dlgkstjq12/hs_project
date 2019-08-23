@@ -7,7 +7,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 회원가입 -->
 <mapper namespace="admin">
 	
-	
 	<!-- 로그인 관련 mapper-->
 	<select id = "login_check" parameterType=
 	"com.example.hansub_project.model.admin.dto.AdminDTO"

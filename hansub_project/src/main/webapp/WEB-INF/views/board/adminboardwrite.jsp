@@ -12,8 +12,8 @@
 <!-- ckeditor 사용을 위해 js파일을 연결함 -->
 <body>
 <!-- 글쓰기 폼 작성 -->
-<h2>글쓰기</h2>
-<form method = "post" action = "insert.do">
+<h2>공지사항 작성</h2>
+<form method = "post" action = "admin_board_insert.do">
 
 <div>제목 : <input name = "title" id = "title" size = "80" placeholder = "제목을 입력하세요"></div><br><br>
 

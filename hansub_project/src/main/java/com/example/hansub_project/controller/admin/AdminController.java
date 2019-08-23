@@ -16,7 +16,7 @@ import com.example.hansub_project.service.admin.AdminService;
 
 
 @Controller //관리자 관련 컨트롤러 빈 선언
-public class AdminController {
+public class AdminController {	//관리자 권한 관련 컨트롤러
 	
 	
 	@Inject	//서비스를 호출하기 위해서 의존성을 주입

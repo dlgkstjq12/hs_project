@@ -13,13 +13,13 @@
 //게시판 목록 페이지로 이동하게 하는 함수
 function list(page){
 	console.log("페이지를 이동합니다.");
-	location.href="admin_list.do?curPage="+page;
+	location.href="admin_board_list.do?curPage="+page;
 };
 
 //글쓰기 폼으로 이동하게 하는 함수
 $(function(){	
 		$("#btnWrite").click(function(){
-			location.href="admin_write.do";
+			location.href="admin_board_write.do";
 		});
 });
 
@@ -43,16 +43,15 @@ $(function(){
 		<th>내용</th>
 		<th>날짜</th>
 		<th>조회수</th>
-		<th>추천수</th>
 
 		
 	<!-- forEach var = "개별데이터" items = "집합데이터" -->
 	<c:forEach var = "row" items = "${map.list}"> <!-- 컨트롤러에서 map안에 list를 넣었기 때문에 이렇게 받는다. -->
 	<tr>
-		<td>${row.member_bno}</td>	<!-- 글번호 -->
+		<td>${row.bno}</td>	<!-- 글번호 -->
 		<!-- 클릭하면 컨트롤러의 view.do로 이동하고, 게시물번호, 페이지 번호, 검색옵션, 키워드를 같이 넘긴다 -->
 		<td>
-		<a href="view.do?bno=${row.bno}      
+		<a href="admin_board_view.do?bno=${row.bno}      
 &curPage=${map.pager.curPage}
 &search_option=${map.search_option} 
 &keyword=${map.keyword}">${row.title}</a>
@@ -65,8 +64,7 @@ $(function(){
 		<td>${row.content}</td>	<!-- 글의내용 -->
 		<td>${row.reg_date}</td>	<!-- 날짜의 출력형식을 변경함 -->
 		<td>${row.viewcnt}</td>	<!-- 조회수 -->
-		<td>${row.recommend}</td>	<!-- 추천수 -->
-
+		
 
 	
 	</tr>
@@ -116,10 +114,10 @@ $(function(){
 </table>
 
 
-<form name="form1" method="post" action="list.do">
+<form name="form1" method="post" action="admin_board_list.do">
     <select name="search_option">
-        <option value="user_id"
-<c:if test="${map.search_option == 'user_id'}">selected</c:if>
+        <option value="admin_id"
+<c:if test="${map.search_option == 'admin_id'}">selected</c:if>
         >작성자</option>
         <option value="title" 
 <c:if test="${map.search_option == 'title'}">selected</c:if>
@@ -134,8 +132,9 @@ $(function(){
     <input name="keyword" value="${map.keyword}">
     <input type="submit" value="조회">
    
+   <c:if test="${sessionScope.admin_id != null }">
    <button type = "button" id = "btnWrite" align = "right">글쓰기</button>
-   
+   </c:if>
 </form>
 
  

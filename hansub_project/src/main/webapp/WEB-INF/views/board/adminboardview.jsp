@@ -17,17 +17,20 @@ $(function(){
 	
 	//목록 버튼
 	$("#btnList").click(function(){
-    	location.href="admin_list.do";
+    	location.href="admin_board_list.do";
 	});
 
 
 	//수정 버튼
 	$("#btnUpdate").click(function(){
     if(confirm("수정하시겠습니까?")){
-    document.form1.action="admin_update.do";
+    document.form1.action="admin_board_update.do";
     document.form1.submit();
+    if(document.form1.submit()){
+    	alert("공지사항이 수정되었습니다.")
     		}
-		});
+    	}
+	});
 
 
 	//댓글쓰기 버튼 (버튼을 눌러서 id값이 넘어와서 실행되는 자바스크립트 구문)
@@ -43,7 +46,7 @@ $(function(){
 	
 	$.ajax({
 		type: "post", //데이터를 보낼 방식
-		url: "admin_reply_insert.do", //데이터를 보낼 url
+		url: "admin_board_reply_insert.do", //데이터를 보낼 url
 		data: params, //보낼 데이터
 	
 		
@@ -61,7 +64,7 @@ $(function(){
 function listReply(){
 	$.ajax({
 		type: "get",	//get방식으로 자료를 전달
-		url: "admin_reply_list.do?bno=${dto.member_bno}&curPage=${curPage}&search_option=${search_option}&keyword=${keyword}",	//컨트롤러에 있는 list.do로 맵핑되고 게시글 번호도 같이 보낸다.
+		url: "admin_board_reply_list.do?bno=${dto.bno}&curPage=${curPage}&search_option=${search_option}&keyword=${keyword}",	//컨트롤러에 있는 list.do로 맵핑되고 게시글 번호도 같이 보낸다.
 		success: function(result){	//자료를 보내는것이 성공했을때 출력되는 메시지
 			
 			//댓글목록을 실행한 결과를 가져온다.
@@ -77,7 +80,7 @@ function listReply2(){
 	$.ajax({
 		type: "get",
 		contentType: "application/json",
-		url: "admin_reply_list_json.do?bno=${dto.bno}",
+		url: "admin_board_reply_list_json.do?bno=${dto.bno}",
 		success: function(result){
 			console.log(result);
 			var output="<table>";
@@ -105,23 +108,14 @@ function listReply2(){
 //삭제 버튼
 $("#btnDelete").click(function(){
     if(confirm("삭제하시겠습니까?")){
-        document.form1.action="admin_delete.do";
+        document.form1.action="admin_board_delete.do";
         document.form1.submit();
+    if(document.form1.submit()){
+    	alert("공지사항이 삭제되었습니다.");
+    		}
     	}
 	});
 	
-	
-//추천하기 버튼
-$("#btnRecommend").click(function(){
-    if(confirm("해당 글을 추천하시겠습니까?")){
-        document.form1.action="admin_recommend.do";
-        document.form1.submit();
-        
-        alert("해당 글을 추천하였습니다.")
-        
-    	}
-	});
-
 	
 	
 });
@@ -131,7 +125,7 @@ $("#btnRecommend").click(function(){
 
 <h2>공지사항 보기</h2>
 <!-- 게시물을 작성하기 위해 컨트롤러의 insert.do로 맵핑 -->
-<form id="form1" name="form1" method="post" action="${path}/board/admin_insert.do">
+<form id="form1" name="form1" method="post" action="${path}/board/admin_board_insert.do">
 <input type = "hidden" id = "bno" name = "bno" value = "${dto.bno }">
     <div>제목 <input name="title" id="title" size="80"
                     value="${dto.title}"
@@ -155,9 +149,6 @@ CKEDITOR.replace("content",{
     height: "300px"
 });
 
-CKEDITOR.replace("r_content",{
-    height: "300px"
-});
 </script>
 
 <div style = "width:700px; text-align:center;">
@@ -173,21 +164,6 @@ CKEDITOR.replace("r_content",{
 			<button type = "button" id = "btnDelete">삭제</button>
 	</c:if>
 	
-	
-	<!-- 로그인이 되어있고, 본인 글이 아닐경우에만 추천할 수 있도록 버튼을 출력 -->
-	<c:if test = "${sessionScope.user_id != null and sessionScope.user_id != dto.user_id
-	or sessionScope.navername != null and sessionScope.navername != dto.user_id
-	or sessionScope.kakaonickname != null and sessionScope.kakaonickname != dto.user_id
-	or sessionScope.facebookname != null and sessionScope.facebookname != dto.user_id}">
-			<button type = "button" id = "btnRecommend">추천하기</button>
-	
-	</c:if>
-	
-	<!-- 관리자에게도 추천 버튼 출력 -->
-	<!-- 관리자에게는 삭제 버튼을 표시한다. -->
-	<c:if test = "${sessionScope.admin_id != null}">
-			<button type = "button" id = "btnRecommend">추천하기</button>
-	</c:if>
 	
 	
 	<!-- 글목록은 본인이 아니어도 확인 가능하게 한다. -->

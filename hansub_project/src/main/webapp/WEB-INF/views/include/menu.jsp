@@ -11,7 +11,7 @@
 <a href="${path}/board/list.do">회원 게시판</a> ㅣ
 <a href="${path}/member/member_best_board.do">베스트 게시판</a> ㅣ
 <a href="${path}/admin/admin_login_view.do">관리자 로그인</a> ㅣ	
-<a href="${path}/member/admin_board.do">공지사항</a> ㅣ
+<a href="${path}/board/admin_board_list.do">공지사항</a> ㅣ
 <br>
 <br>
 <c:if test = "${sessionScope.admin_id != null}">

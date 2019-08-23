@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+<!-- 댓글 관련 쿼리들 -->
+<mapper namespace="admin_board_reply">
+
+<insert id = "insertReply">
+
+	<!-- 댓글을 추가 -->
+	insert into admin_board_reply (rno, bno, r_content, user_id) values
+	(admin_reply_bno.nextval, #{bno}, #{r_content}, #{user_id})
+	
+	</insert>
+	
+	<!-- 댓글 리스트 출력 -->
+	<select id = "listReply"
+	resultType = "com.example.hansub_project.model.board.dto.AdminBoardReplyDTO">
+	<!-- 댓글의 작성자와 회원의 아이디가 같고, 글번호가 같을 경우에 댓글 리스트를 내림차순으로 검색함 -->
+	select rno, r.bno, r.user_id, r.reg_date, r.r_content
+	from admin_board_reply r
+	where r.bno = #{bno}
+	order by rno
+	</select>
+	
+	<!-- 댓글 수정 -->
+	<update id = "updateReply">
+	<!-- 댓글의 번호와 회원의 아이디가 모두다 같을경우에만 수정할 수 있도록 쿼리를 설정 -->	
+	update admin_board_reply set r_content = #{r_content} where rno = #{rno}
+	</update>
+
+
+	<!-- 댓글 삭제 -->
+	<delete id="deleteReply">
+	<!-- 댓글의 번호가 같을 경우에 삭제할 수 있도록 설정 (아이디는 앞에서 같지않으면 버튼조차 뜨지 않기때문에 따로 쿼리를 추가할 필요 없다.) -->
+	delete from admin_board_reply where rno = #{rno}
+	</delete>
+
+	
+
+</mapper>
