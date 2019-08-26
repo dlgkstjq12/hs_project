@@ -47,9 +47,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    ) A
 		) where rn between #{start} and #{end}	
 	</sql>
+		
+	
+	<!-- 레코드 갯수 계산 -->	
+	<select id="countArticle" resultType="int">
+		select count(*)
+		from member_board
+		<include refid="search" />
+	</select>
 	
 
-	<sql id="search">
+<sql id="search">
         <choose>
           
             <when test="search_option == 'all' ">
@@ -64,15 +72,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </choose>
     </sql>
 
-<insert id = "insert">
 
+
+<insert id = "insert">
 <!-- 게시글 번호는 시퀀스로 하지말고 최대값 +1로 게시글 번호를 설정함 -->
 <!-- 시퀀스로 할 경우 글이 삭제될시 번호가 꼬일 수 있기 때문에 -->
 <!-- 제목, 글내용, 작성자를 삽입함 -->
 insert into member_board (member_bno, title, content, user_id) values
         ( (select nvl(max(member_bno),0)+1 from member_board), #{title}, #{content}, #{user_id} )
-
 </insert>
+
+
 
 <!-- 조회수 증가처리를 하는 구문 -->
 <update id = "increaseViewcnt">
@@ -84,8 +94,7 @@ where member_bno=#{member_bno}
 
 
 <!-- 게시글 상세정보를 확인하는 쿼리문 -->
-<select id = "read" 
-resultType = "com.example.hansub_project.model.board.dto.MemberBoardDTO">
+<select id = "read" resultType = "com.example.hansub_project.model.board.dto.MemberBoardDTO">
 
 <!-- member_board테이블의 작성자와 member테이블의 아이디가 같고, 글번호가 클릭한 글번호와 같은 글번호와 같은
 글번호, 제목, 조회수, 날짜, 내용, 이름, 작성자를 검색한다. -->

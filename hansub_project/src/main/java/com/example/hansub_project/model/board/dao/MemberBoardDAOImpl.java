@@ -64,8 +64,11 @@ public class MemberBoardDAOImpl implements MemberBoardDAO {
 
 	@Override
 	public int countArticle(String search_option, String keyword) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+
+		Map<String,String> map=new HashMap<>();
+		map.put("search_option", search_option);
+		map.put("keyword", "%"+keyword+"%");
+		return sqlSession.selectOne("memberboard.countArticle",map);
 	}
 
 	//게시글 상세정보 

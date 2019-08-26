@@ -80,8 +80,7 @@ public class MemberBoardServiceImpl implements MemberBoardService {
 
 	@Override
 	public int countArticle(String search_option, String keyword) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return memberboarddao.countArticle(search_option,keyword); 
 	}
 
 	//게시글 추천관련 메소드 구현

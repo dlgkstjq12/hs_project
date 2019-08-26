@@ -4,7 +4,6 @@
 <html>
 <head>
 
-
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>메인페이지</title>
 
@@ -15,7 +14,7 @@
 <%@ include file="include/menu.jsp"%>
 
 <body>
-	
+
 
 <br>
 <br>
@@ -54,6 +53,18 @@
     	$("#smsForm").submit();
     }
   </script>
+  
+ <html>
+ 	<head>
+ 	
+ 	</head>
+ 	<body>
+ 	
+ 	</body>
+ </html>
+
+  
+  
   
 
 <br>

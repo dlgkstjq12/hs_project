@@ -50,7 +50,7 @@ public class MemberBoardController {
 			 throws Exception{
 		
 		//레코드 갯수를 계산
-		int count = 1000;
+		int count = memberboardservice.countArticle(search_option, keyword);
 		
 		//페이지 관련 설정, 시작번호와 끝번호를 구해서 각각 변수에 저장한다.
 		Pager pager = new Pager(count, curPage);

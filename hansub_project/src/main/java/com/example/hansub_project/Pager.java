@@ -2,7 +2,7 @@ package com.example.hansub_project;
 
 public class Pager {
 
-	public static final int PAGE_SCALE=25;    //페이지당 게시물수
+	public static final int PAGE_SCALE=15;    //페이지당 게시물수
     public static final int BLOCK_SCALE=10;    //화면당 페이지수
     
     private int curPage;     //현재 페이지
@@ -22,7 +22,7 @@ public class Pager {
     //생성자
     // Pager(레코드갯수, 출력할페이지번호)
     public Pager(int count, int curPage) {
-        curBlock = 1; //현재블록 번호
+        curBlock = curPage; //현재블록 번호
         this.curPage = curPage; //현재 페이지 번호
         setTotPage(count); //전체 페이지 갯수 계산
         setPageRange(); // #{start}, #{end} 값 계산하는 메소드
