@@ -69,5 +69,13 @@ public class MemberSerivceImpl implements MemberService {
 	}
 
 
+	@Override
+	public void pass_change(Map<String, Object> map, MemberDTO dto) throws Exception {
+		
+		
+		memberdao.pass_change(map,dto);
+	}
+
+
 	
 }

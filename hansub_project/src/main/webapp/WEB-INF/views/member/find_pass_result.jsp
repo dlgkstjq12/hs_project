@@ -13,6 +13,6 @@
 <span style="color: green; font-weight: bold;">비밀번호 찾기 결과</span> <br> <br>
 
 <body>
-회원님의 비밀번호는 ${member_pass} 입니다.
+비밀번호가 변경되었습니다.
 </body>
 </html>

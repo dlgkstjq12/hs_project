@@ -319,6 +319,8 @@ public class MemberController {
 	  } 
 	  	return mav; 
 	}
+	  
+	
 	
 	  
 	//일반 로그아웃 메소드
@@ -329,7 +331,11 @@ public class MemberController {
 			session.invalidate();
 			
 			return "home";
-		} 
+		}
+		
+		
+				
+	
 	  
 	//네이버 관련 로그아웃 메소드
 	@RequestMapping("naver_logout.do")
@@ -405,6 +411,23 @@ public class MemberController {
 	}
 	
 	
+	//게시판에서 아이디 찾기 페이지로 이동 
+	@RequestMapping("/board/find.user_id.do")
+	public String board_finduser_id() {
+		return "member/find_user_id";
+	}
+	
+	
+	//게시판에서 비밀번호 찾기 페이지로 이동
+	@RequestMapping("/board/find.member_pass.do")
+	public String board_findmember_pass() {
+		return "member/find_member_pass";
+	}
+	
+	
+	
+	
+	
 	//아이디 찾기 처리
 	@RequestMapping("find_id.do")
 	public ModelAndView find_id(String e_mail) {
@@ -429,29 +452,175 @@ public class MemberController {
 		return mav;
 	}
 	
-		//비밀번호 찾기 처리
-		@RequestMapping("find_pass.do")
-		public ModelAndView find_pass(String user_id, String e_mail) {
-			ModelAndView mav = new ModelAndView();
-			MemberDTO dto = new MemberDTO();
+		//비밀번호 찾기 처리 (1) 이메일 발송
+		@RequestMapping(value = "find_pass.do", method = RequestMethod.POST)
+		public ModelAndView find_pass(HttpServletRequest request, String user_id, String e_mail,
+				HttpServletResponse response_email) throws IOException{
 			
-			dto.setUser_id(user_id);
-			dto.setE_mail(e_mail);
+			//랜덤한 난수 (인증번호)를 생성해서 이메일로 보내고 그 인증번호를 입력하면 비밀번호를 변경할 수 있는 페이지로 이동시킴
 			
-			String member_pass = memberservice.find_passCheck(dto);
+			Random r = new Random();
+			int dice = r.nextInt(157211)+48271;
 			
-			if(member_pass != null) {
-				mav.setViewName("member/find_pass_result");	
-				mav.addObject("member_pass", member_pass);
+			String setfrom = "dlgkstjq623@gmail.com";
+			String tomail = request.getParameter("e_mail");	//받는 사람의 이메일
+			String title = "비밀번호 찾기 인증 이메일 입니다.";	//제목
+			String content =
 			
-			}else {
-				//비밀번호 찾기 실패
-				mav.setViewName("member/find_member_pass");
-				//뷰에 전달할 값
-				mav.addObject("message", "회원가입된 회원의 아이디 혹은 이메일이 아닙니다.");
-		}	
-			return mav;
-	}
+					System.getProperty("line.separator")+
+					
+					System.getProperty("line.separator")+
+							
+					"안녕하세요 회원님 저희 홈페이지를 찾아주셔서 감사합니다"
+					
+					+System.getProperty("line.separator")+
+					
+					System.getProperty("line.separator")+
+			
+					"비밀번호 찾기 인증번호는 " +dice+ " 입니다. "
+					
+					+System.getProperty("line.separator")+
+					
+					System.getProperty("line.separator")+
+					
+					"받으신 인증번호를 홈페이지에 입력해 주시면 다음으로 넘어갑니다."; // 내용
+			
+			try {
+
+				MimeMessage message = mailSender.createMimeMessage();
+				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+
+				messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
+				messageHelper.setTo(tomail); // 받는사람 이메일
+				messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+				messageHelper.setText(content); // 메일 내용
+				
+				mailSender.send(message);
+		
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+			
+			
+			ModelAndView mv = new ModelAndView();	//ModelAndView로 보낼 페이지를 지정하고, 보낼 값을 지정한다.
+			mv.setViewName("/member/pass_email"); 	//뷰의이름
+			mv.addObject("dice", dice);
+			mv.addObject("e_mail", e_mail);
+			
+			System.out.println("mv : "+mv);
+
+			response_email.setContentType("text/html; charset=UTF-8");
+            PrintWriter out_email = response_email.getWriter();
+            out_email.println("<script>alert('이메일이 발송되었습니다. 인증번호를 입력해주세요.');</script>");
+            out_email.flush();
+			
+			
+			return mv;
+			
+		}
+		
+		
+		//인증번호를 입력한 후에 확인 버튼을 누르면 자료가 넘어오는 컨트롤러
+		@RequestMapping(value = "pass_injeung.do{dice},{e_mail}", method = RequestMethod.POST)
+			public ModelAndView pass_injeung(String pass_injeung, @PathVariable String dice, @PathVariable String e_mail, 
+					HttpServletResponse response_equals) throws IOException{
+			
+			System.out.println("마지막 : pass_injeung : "+pass_injeung);
+			
+			System.out.println("마지막 : dice : "+dice);
+			
+			ModelAndView mv = new ModelAndView();
+			
+			mv.setViewName("/member/pass_change");
+			
+			mv.addObject("e_mail",e_mail);
+			
+			if (pass_injeung.equals(dice)) {
+				
+				//인증번호가 일치할 경우 인증번호가 맞다는 창을 출력하고 비밀번호 변경창으로 이동시킨다
+			
+				mv.setViewName("member/pass_change");
+				
+				mv.addObject("e_mail",e_mail);
+				
+				//만약 인증번호가 같다면 이메일을 비밀번호 변경 페이지로 넘기고, 활용할 수 있도록 한다.
+				
+				response_equals.setContentType("text/html; charset=UTF-8");
+	            PrintWriter out_equals = response_equals.getWriter();
+	            out_equals.println("<script>alert('인증번호가 일치하였습니다. 비밀번호 변경창으로 이동합니다.');</script>");
+	            out_equals.flush();
+		
+				return mv;
+				
+				
+			}else if (pass_injeung != dice) {
+				
+				
+				ModelAndView mv2 = new ModelAndView(); 
+				
+				mv2.setViewName("member/pass_email");
+				
+				response_equals.setContentType("text/html; charset=UTF-8");
+	            PrintWriter out_equals = response_equals.getWriter();
+	            out_equals.println("<script>alert('인증번호가 일치하지않습니다. 인증번호를 다시 입력해주세요.'); history.go(-1);</script>");
+	            out_equals.flush();
+				
+		
+				return mv2;
+				
+			}	
+		
+			return mv;
+			
+		}
+		
+		
+		
+		//변경할 비밀번호를 입력한 후에 확인 버튼을 누르면 넘어오는 컨트롤러
+		@RequestMapping(value = "pass_change.do{e_mail}", method = RequestMethod.POST)
+		public ModelAndView pass_change(@PathVariable String e_mail, HttpServletRequest request, MemberDTO dto, HttpServletResponse pass) throws Exception{
+					
+		String member_pass = request.getParameter("member_pass");
+					
+		String e_mail1 = e_mail;
+					
+		dto.setE_mail(e_mail1);
+		dto.setMember_pass(member_pass);
+		
+		//값을 여러개 담아야 하므로 해쉬맵을 사용해서 값을 저장함
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("e_mail", dto.getE_mail());
+		map.put("member_pass", dto.getMember_pass());
+		
+		memberservice.pass_change(map,dto);
+		
+		ModelAndView mv = new ModelAndView();
+		
+		mv.setViewName("member/find_pass_result");
+		
+		return mv;
+					
+		}
+				
+			
+			
+	/*
+	 * ModelAndView mav = new ModelAndView(); MemberDTO dto = new MemberDTO();
+	 * 
+	 * dto.setUser_id(user_id); dto.setE_mail(e_mail);
+	 * 
+	 * String member_pass = memberservice.find_passCheck(dto);
+	 * 
+	 * if(member_pass != null) { mav.setViewName("member/find_pass_result");
+	 * mav.addObject("member_pass", member_pass);
+	 * 
+	 * }else { //비밀번호 찾기 실패 mav.setViewName("member/find_member_pass"); //뷰에 전달할 값
+	 * mav.addObject("message", "회원가입된 회원의 아이디 혹은 이메일이 아닙니다."); } return mav; }
+	 */
+		
+		
 		
 		//문자를 보낼때 맵핑되는 메소드
 		@RequestMapping(value = "/sendSms.do")

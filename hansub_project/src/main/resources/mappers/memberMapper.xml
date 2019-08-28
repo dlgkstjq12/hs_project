@@ -47,6 +47,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	values (#{user_id}, 0, #{e_mail})
 	</insert>
 	
+	
+	<!-- 비밀번호 변경 관련 mapper -->
+	
+	<update id = "pass_change" parameterType="hashMap">
+	update member set member_pass=#{member_pass} where e_mail=#{e_mail}
+
+	</update>
 
 
 </mapper>

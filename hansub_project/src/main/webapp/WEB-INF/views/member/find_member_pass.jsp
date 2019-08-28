@@ -34,6 +34,10 @@
 아이디 : <input type = "text" name="user_id" placeholder="ID를 입력하세요."><br><br>
 이메일 : <input type="text" name="e_mail" placeholder="이메일을 입력하세요."><br><br>
 <button type = "submit" name = "submit" >확인</button>
+
+<br>
+<br>
+입력하신 이메일로 인증번호가 발송됩니다. 받으신 인증번호를 입력해주세요.
 </center>
 </form>
 

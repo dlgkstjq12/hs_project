@@ -16,5 +16,7 @@ public interface MemberDAO {
 	public String find_passCheck(MemberDTO dto);	//비밀번호 찾기
 
 	public void authentication(MemberDTO dto);		//소셜 로그인 회원인증 관련 메소드
+
+	public void pass_change(Map<String, Object> map, MemberDTO dto)throws Exception;	//비밀번호 변경
 	
 }

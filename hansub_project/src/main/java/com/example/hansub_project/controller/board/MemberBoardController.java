@@ -25,6 +25,7 @@ import com.example.hansub_project.Pager;
 import com.example.hansub_project.controller.member.MemberController;
 import com.example.hansub_project.model.board.dto.MemberBoardDTO;
 import com.example.hansub_project.model.board.dto.MemberBoardReplyDTO;
+import com.example.hansub_project.model.member.dto.MemberDTO;
 import com.example.hansub_project.service.board.MemberBoardService;
 import com.example.hansub_project.service.member.MemberService;
 
@@ -34,6 +35,9 @@ public class MemberBoardController {
 	
 	@Inject		//서비스를 호출하기위해서 의존성을 주입함
 	MemberBoardService memberboardservice;
+	
+	@Inject		
+	MemberService memberservice;
 	
 	//로깅을 위한 변수
 		private static final Logger logger=
@@ -232,5 +236,80 @@ public class MemberBoardController {
 		
 		return "forward:/board/list.do";
 	}
+	
+	
+	
+	//게시판 로그아웃 메소드
+			@RequestMapping("/board/logout.do")
+			public String board_logout(HttpSession session, HttpServletRequest request) {
+						
+				//세션에 담긴값 초기화
+				session.invalidate();
+						
+				return "home";
+			}
+			
+	
+			  
+			//네이버 관련 로그아웃 메소드
+			@RequestMapping("/board/naver_logout.do")
+			public String naver_logout(HttpSession session, HttpServletRequest request) {
+				
+				//세션에 담긴값 초기화
+				session.invalidate();
+				
+				return "home";
+			}
+			
+			
+				//카카오톡 관련 로그아웃 메소드
+				@RequestMapping("/board/kakao_logout.do")
+				public String kakao_logout(HttpSession session, HttpServletRequest request) {
+					
+					//세션에 담긴값 초기화
+					session.invalidate();
+					
+					return "home";
+				}
+				
+				
+				//페이스북 관련 로그아웃 메소드
+				@RequestMapping("/board/facebook_logout.do")
+				public String facebook_logout(HttpSession session, HttpServletRequest request) {
+					
+				//세션에 담긴값 초기화
+				session.invalidate();
+				
+							
+				return "home";
+			}
+				
+				
+	
+				//로그인을 체크하는 메소드 (로그인이 성공하면 로그인 결과 페이지로 이동하고, 실패하면 다시 로그인 페이지로 이동한다.)
+				  @RequestMapping("/board/normale_login.do") public ModelAndView login (String user_id, String
+				  member_pass, HttpSession session) throws Exception{
+				  
+					  //로그인 체크를 위해 id와 비밀번호를 dto에 저장
+				  MemberDTO dto = new MemberDTO(); 
+				  dto.setUser_id(user_id);
+				  dto.setMember_pass(member_pass); 
+				  
+				  
+				  boolean result = memberservice.loginCheck(dto, session); 
+				  ModelAndView mav = new ModelAndView();
+				  
+				  if(result) { //로그인 성공 (result값이 참일때 실행되는 구문) 
+				  mav.setViewName("home");//뷰의이름
+				  mav.addObject("user_id", session.getAttribute(user_id));
+				  
+				  }else if(session.getAttribute(user_id)==null) { //로그인 실패
+				  mav.setViewName("member/login"); 
+				  //뷰에 전달할 값 
+				 
+				  mav.addObject("message","회원가입된 회원의 아이디 혹은 비밀번호가 일치하지 않습니다."); 
+				  } 
+				  	return mav; 
+				}
 	
 }
